@@ -1,1 +1,2 @@
-# Projet_Final-Web_et_base_de_donnees
+# Projet Final - Web et bases de données
+Par Anthony Kessaris, Lorenzo Mignacca & Alexandre Rousseau
