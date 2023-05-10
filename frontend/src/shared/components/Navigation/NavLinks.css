@@ -1,0 +1,30 @@
+.nav-links {
+  background-color: green;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-links li {
+  background-color: purple;
+  margin: 0 0.5em;
+  width: 10em;
+  text-align: center;
+}
+
+.nav-links a {
+  background-color: hotpink;
+  display: inline-block;
+  padding: 1.5em 0;
+  width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a:active,
+.nav-links a.active {
+  background-color: lime;
+}
