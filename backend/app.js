@@ -10,7 +10,6 @@ const etudiantsRoutes = require("./routes/etudiants-routes");
 const HttpErreur = require("./models/http-erreur");
 
 const app = express();
-
 app.use(bodyParser.json());
 
 //THIS TOO

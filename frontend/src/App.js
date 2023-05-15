@@ -1,13 +1,6 @@
 import React, { useCallback, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import "./App.css";
-
 import Accueil from "./accueil/pages/Accueil";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import { AuthContext } from "./shared/context/auth-context";
