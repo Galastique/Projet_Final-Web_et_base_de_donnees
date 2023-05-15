@@ -49,8 +49,8 @@ const ProfilsEtudiants = (props) => {
       les méthodologies Agile telles que SCRUM
       le développement pour plateforme mobile
       l’assurance qualité logiciel
-  </p>
- </div>;
+    </p>
+  </div>;
 };
 
 export default ProfilsEtudiants;

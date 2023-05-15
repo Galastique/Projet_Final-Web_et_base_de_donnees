@@ -2,12 +2,12 @@ import React from "react";
 
 const Faq = (props) => {
   return <div>
-    <p>
+    <pre>
       Foire aux questions - FAQ
 
       Q - Est-ce que le stage est obligatoire?
       R - Le stage de fin d'études en informatique est obligatoire 
-      pour l'obtention du diplôme collgégial. 
+      pour l'obtention du diplôme collégial. 
       
       Q - Quel est l'horaire de l'étudiant durant les stages?
       R - L'étudiant doit respecter l'horaire de l'entreprise durant son stage. 
@@ -22,7 +22,7 @@ const Faq = (props) => {
       
       Q - Quelles sont les dates prévues pour les stages?
       R - Les stages sont prévus du 21 janvier au 3 mai 2019. 
-    </p>
+    </pre>
   </div>;
 };
 
