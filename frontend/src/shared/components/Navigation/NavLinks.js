@@ -13,16 +13,16 @@ const NavLinks = (props) => {
                 <NavLink to="/" exact>Accueil</NavLink>
             </li>
             <li>
-                <NavLink to="/" exact>Déroulement Stage Employeurs</NavLink>
+                <NavLink to="/deroulement-stage-employeurs/pages/DeroulementStageEmployeurs" exact>Déroulement Stage Employeurs</NavLink>
             </li>
             <li>
-                <NavLink to="/" exact>Profils étudiants</NavLink>
+                <NavLink to="/profils-etudiants/pages/ProfilsEtudiants" exact>Profils étudiants</NavLink>
             </li>
             <li>
-                <NavLink to="/" exact>Déroulement Stage Étudiants</NavLink>
+                <NavLink to="/deroulement-stage-etudiants/pages/DeroulementStageEtudiants" exact>Déroulement Stage Étudiants</NavLink>
             </li>
             <li>
-                <NavLink to="/" exact>FAQ</NavLink>
+                <NavLink to="/faq/pages/Faq" exact>FAQ</NavLink>
             </li>
             {auth.isLoggedIn && (
                 <li>
