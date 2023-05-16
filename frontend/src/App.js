@@ -49,8 +49,7 @@ function App() {
         userId: userId,
         login: login,
         logout: logout,
-      }}
-    >
+      }}>
       <Router>
         <MainNavigation />
         <main>{routes}</main>
