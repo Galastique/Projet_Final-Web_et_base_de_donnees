@@ -16,7 +16,7 @@ const NavLinks = (props) => {
       </li>
       <li>
         <NavLink
-          to="/deroulement-stage-employeurs/pages/DeroulementStageEmployeurs"
+          to="/deroulement-stage-employeurs"
           exact
           className="nav_links-button"
         >
@@ -24,17 +24,13 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/profils-etudiants/pages/ProfilsEtudiants"
-          exact
-          className="nav_links-button"
-        >
+        <NavLink to="/profils-etudiants" exact className="nav_links-button">
           Profils étudiants
         </NavLink>
       </li>
       <li>
         <NavLink
-          to="/deroulement-stage-etudiants/pages/DeroulementStageEtudiants"
+          to="/deroulement-stage-etudiants"
           exact
           className="nav_links-button"
         >
@@ -42,7 +38,7 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/faq/pages/Faq" exact className="nav_links-button">
+        <NavLink to="/faq" exact className="nav_links-button">
           FAQ
         </NavLink>
       </li>
