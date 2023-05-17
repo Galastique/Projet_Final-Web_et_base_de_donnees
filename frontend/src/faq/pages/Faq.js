@@ -2,7 +2,7 @@ import React from "react";
 
 const Faq = (props) => {
     return <div>
-        <pre>
+        <p>
             Foire aux questions - FAQ
 
             Q - Est-ce que le stage est obligatoire?
@@ -22,7 +22,7 @@ const Faq = (props) => {
 
             Q - Quelles sont les dates prévues pour les stages?
             R - Les stages sont prévus du 21 janvier au 3 mai 2019. 
-        </pre>
+        </p>
     </div>;
 };
 

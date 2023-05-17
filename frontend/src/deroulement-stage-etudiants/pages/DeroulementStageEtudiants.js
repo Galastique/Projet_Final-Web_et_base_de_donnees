@@ -42,7 +42,7 @@ const DeroulementStageEtudiants = (props) => {
                     
             Lisez ce document concernant 
             <a href="../documents/Code_ethique_presentation_stages.pdf">l'éthique et les dates (pour Hiver 2019)</a>
-            <p style="text-align: left;">Plus de détails pour les 
+            <p>Plus de détails pour les 
             <a href="rapports_techniques.php">rapports techniques</a></p> 			      
             <li>TRÈS IMPORTANT: pour toute communication par courriel avec le coordonnateur
             vous devez inscrire dans le sujet du message:</li>  
