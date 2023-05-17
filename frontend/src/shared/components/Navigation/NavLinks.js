@@ -73,6 +73,20 @@ const NavLinks = (props) => {
           FAQ
         </NavLink>
       </li>
+      {!auth.isLoggedIn && (
+        <li>
+          <NavLink to={`/auth`} className="nav_links-button">
+            Se Connecter
+          </NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <button onClick={auth.logout} className="nav_links-button">
+            Se Déconnecter
+          </button>
+        </li>
+      )}
     </ul>
   );
 };

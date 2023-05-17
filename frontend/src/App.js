@@ -17,6 +17,8 @@ import ListeEtudiants from "./liste-etudiants/pages/ListeEtudiants";
 import FAQ from "./faq/pages/Faq";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Footer from "./shared/components/Footer";
+import Auth from "./shared/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 
 import "./App.css";
@@ -89,6 +91,9 @@ function App() {
         <Route path="/faq" exact>
           <FAQ />
         </Route>
+        <Route path="/auth" exact>
+          <Auth />
+        </Route>
         <Redirect to="/" />
       </Switch>
     );
@@ -106,6 +111,7 @@ function App() {
       <Router>
         <MainNavigation />
         <main>{routes}</main>
+        <Footer />
       </Router>
     </AuthContext.Provider>
   );
