@@ -6,8 +6,6 @@ import "./NavLinks.css";
 
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
-  // CHANGER BOOL ICI POUR TESTER
-  auth.isLoggedIn = true;
 
   return (
     <ul className="nav_links">
