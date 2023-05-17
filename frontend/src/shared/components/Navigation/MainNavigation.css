@@ -20,7 +20,7 @@
 }
 
 .main_header-image {
-  height: 70%;
+  height: 50%;
 }
 
 .main_header-title {
@@ -28,11 +28,11 @@
 }
 
 .main_header-title h1 {
-  font-size: 1.75em;
+  font-size: 1.25em;
 }
 
 .main_header-title h3 {
-  font-size: 1em;
+  font-size: 0.9em;
 }
 
 .main_header-navigation {
