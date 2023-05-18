@@ -16,3 +16,11 @@
 .main_footer * {
   margin: 0 1em;
 }
+
+a {
+    margin: 0 !important;
+}
+
+a, a:hover, a:visited {
+    color: #ffffff;
+}

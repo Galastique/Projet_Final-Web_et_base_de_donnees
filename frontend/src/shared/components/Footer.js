@@ -7,7 +7,7 @@ const MainNavigation = (props) => {
     <footer className="main_footer">
       <p>
         Coordonnateur des stages: Sylvain Labranche
-        (sylvain.labranche@cmontmorency.qc.ca)
+        (<a href="mailto:sylvain.labranche@cmontmorency.qc.ca">sylvain.labranche@cmontmorency.qc.ca</a>)
       </p>
       <p>Dernière modification: [Insérer la date ici]</p>
     </footer>
