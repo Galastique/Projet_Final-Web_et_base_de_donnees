@@ -21,6 +21,10 @@ a {
     margin: 0 !important;
 }
 
-a, a:hover, a:visited {
+a, a:visited {
     color: #ffffff;
+}
+
+a:hover {
+    color: #8888ff;
 }
