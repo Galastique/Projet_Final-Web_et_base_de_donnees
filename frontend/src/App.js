@@ -1,11 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Accueil from "./accueil/pages/Accueil";
 import DeroulementStageEmployeurs from "./deroulement-stage-employeurs/pages/DeroulementStageEmployeurs";
 import DeroulementStageEtudiants from "./deroulement-stage-etudiants/pages/DeroulementStageEtudiants";
@@ -15,12 +9,10 @@ import AjouterEtudiant from "./ajouter-etudiant/pages/AjouterEtudiant";
 import ListeStagesDisponibles from "./liste-stages/pages/ListeStages";
 import ListeEtudiants from "./liste-etudiants/pages/ListeEtudiants";
 import FAQ from "./faq/pages/Faq";
-
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Footer from "./shared/components/Footer";
 import Auth from "./shared/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
-
 import "./App.css";
 
 function App() {
