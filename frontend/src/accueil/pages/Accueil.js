@@ -3,7 +3,7 @@ import React from "react";
 const Accueil = (props) => {
     return <div>
         <p>
-            Édition 2023
+            Édition 2023<br/><br/>
 
             Bienvenue sur le site des stages de fin d'études des
             techniques de l'informatique du Collège Montmorency!<br/><br/>
