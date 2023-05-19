@@ -17,14 +17,15 @@
   margin: 0 1em;
 }
 
-a {
-    margin: 0 !important;
+.main_footer-coordinator_link {
+  margin: 0;
 }
 
-a, a:visited {
-    color: #ffffff;
+.main_footer-coordinator_link,
+.main_footer-coordinator_link:visited {
+  color: #f4f4f4;
 }
 
-a:hover {
-    color: #8888ff;
+.main_footer-coordinator_link:hover {
+  color: #8888ff;
 }
