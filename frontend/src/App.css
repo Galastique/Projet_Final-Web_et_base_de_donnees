@@ -44,6 +44,10 @@ main {
   margin: 2em 0;
 }
 
+.main_content-content *:first-child {
+  margin-top: 0;
+}
+
 .main_content-content * {
   margin: 1em 0;
 }

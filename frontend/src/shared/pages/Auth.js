@@ -87,50 +87,60 @@ const Auth = () => {
   };
 
   return (
-    <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
-      <Card className="authentication">
-        <h2>Connexion requise</h2>
-        <hr />
-        <form onSubmit={authSubmitHandler}>
-          {!isLoginMode && (
-            <Input
-              element="input"
-              id="name"
-              type="text"
-              label="Your Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a name."
-              onInput={inputHandler}
-            />
-          )}
-          <Input
-            element="input"
-            id="email"
-            type="email"
-            label="Courriel"
-            validators={[VALIDATOR_EMAIL()]}
-            errorText="Entrez un courriel valide."
-            onInput={inputHandler}
-          />
-          <Input
-            element="input"
-            id="password"
-            type="password"
-            label="Mot de passe"
-            validators={[VALIDATOR_MINLENGTH(5)]}
-            errorText="Entrez un mot de passe valide, au moins 5 caractères."
-            onInput={inputHandler}
-          />
-          <Button type="submit" disabled={!formState.isValid}>
-            {isLoginMode ? "Connexion" : "Inscription"}
-          </Button>
-        </form>
-        <Button inverse onClick={switchModeHandler}>
-          Changer pour {isLoginMode ? "Inscription" : "Connexion"}
-        </Button>
-      </Card>
-    </React.Fragment>
+    <div className="main_content">
+      <h2 className="main_content-title">Édition 2023</h2>
+      <h4 className="main_content-subtitle">
+        Bienvenue sur le site des stages de fin d'études des techniques de
+        l'informatique du Collège Montmorency!
+      </h4>
+      <hr />
+      <div className="main_content-content main_content-content_authentication">
+        <React.Fragment>
+          <ErrorModal error={error} onClear={clearError} />
+          <Card className="authentication">
+            <h2>Connexion requise</h2>
+            <hr />
+            <form onSubmit={authSubmitHandler}>
+              {!isLoginMode && (
+                <Input
+                  element="input"
+                  id="name"
+                  type="text"
+                  label="Your Name"
+                  validators={[VALIDATOR_REQUIRE()]}
+                  errorText="Please enter a name."
+                  onInput={inputHandler}
+                />
+              )}
+              <Input
+                element="input"
+                id="email"
+                type="email"
+                label="Courriel"
+                validators={[VALIDATOR_EMAIL()]}
+                errorText="Entrez un courriel valide."
+                onInput={inputHandler}
+              />
+              <Input
+                element="input"
+                id="password"
+                type="password"
+                label="Mot de passe"
+                validators={[VALIDATOR_MINLENGTH(5)]}
+                errorText="Entrez un mot de passe valide, au moins 5 caractères."
+                onInput={inputHandler}
+              />
+              <Button type="submit" disabled={!formState.isValid}>
+                {isLoginMode ? "Connexion" : "Inscription"}
+              </Button>
+            </form>
+            <Button inverse onClick={switchModeHandler}>
+              Changer pour {isLoginMode ? "Inscription" : "Connexion"}
+            </Button>
+          </Card>
+        </React.Fragment>
+      </div>
+    </div>
   );
 };
 
