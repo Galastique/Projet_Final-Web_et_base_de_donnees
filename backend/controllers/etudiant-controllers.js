@@ -4,6 +4,7 @@ const { mongoose } = require("mongoose");
 
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
+const stage = require("../models/stage");
 
 const getEtudiants = async (requete, reponse, next) => {
     let etudiants;
@@ -57,58 +58,56 @@ const ajouterEtudiant = async (requete, reponse, next) => {
     reponse.status(201).json({ etudiant: nouvelEtudiant.toObject({ getter: true }) });
 }
 
-//TODO (change because this part is copied from TP2)
 const accederEtudiant = async (requete, reponse, next) => {
-    const etudiantId = requete.params.etudiantId;
+    const numeroDA = requete.params.numeroDA;
     let etudiant;
 
-    if (!etudiantId) {
-        return next(new HttpErreur("Vous devez spécifier un ID d'étudiant", 404));
+    if (!numeroDA) {
+        return next(new HttpErreur("Vous devez spécifier un numéro DA d'étudiant", 404));
     }
 
     try {
-        etudiant = await Etudiant.findById(etudiantId);
+        etudiant = await Etudiant.findOne({ numeroDA: numeroDA });
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération de l'étudiant", 500));
     }
 
     if (!etudiant) {
-        return next(new HttpErreur("Aucun étudiant trouvé pour l'ID donné", 404));
+        return next(new HttpErreur("Aucun étudiant trouvé pour le DA donné", 404));
     }
 
     reponse.json({ cours: etudiant.toObject({ getters: true }) });
 }
-//TODO (change because this part is copied from TP2)
-const modifierEtudiant = async (requete, reponse, next) => {
-    const etudiantId = requete.params.etudiantId;
-    const { nom, prenom } = requete.body;
 
-    if (!etudiantId) {
+const modifierEtudiant = async (requete, reponse, next) => {
+    const numeroDA = requete.params.numeroDA;
+    const { nom } = requete.body;
+
+    if (!numeroDA) {
         return next(
-            new HttpErreur("Vous devez spécifier l'ID de l'étudiant", 422)
+            new HttpErreur("Vous devez spécifier le numéro DA de l'étudiant", 422)
         )
     }
 
-    if (!nom && !prenom) {
+    if (!nom) {
         return next(
-            new HttpErreur("Vous devez spécifier un nom ou un prénom", 422)
+            new HttpErreur("Vous devez spécifier le nouveau nom complet de l'étudiant", 422)
         )
     }
 
     let etudiant;
     try {
-        etudiant = await Etudiant.findById(etudiantId);
+        etudiant = await Etudiant.findOne({ numeroDA: numeroDA });
     } catch {
-        return next(new HttpErreur("L'ID fourni pour l'étudiant est invalide", 422));
+        return next(new HttpErreur("Erreur lors de la récupération de l'étudiant", 500));
     }
 
     if (!etudiant) {
-        return next(new HttpErreur("Il n'y a pas d'étudiant pour l'ID donné", 504));
+        return next(new HttpErreur("Aucun étudiant trouvé pour le DA donné", 404));
     }
 
     try {
-        nom && (etudiant.nom = nom);
-        prenom && (etudiant.prenom = prenom);
+        etudiant.nom = nom;
         await etudiant.save();
     } catch {
         return next(new HttpErreur("La modification de l'étudiant a échouée", 500));
@@ -116,105 +115,104 @@ const modifierEtudiant = async (requete, reponse, next) => {
 
     reponse.status(200).json({ cours: etudiant.toObject({ getters: true }) });
 }
-//TODO (change because this part is copied from TP2)
-const supprimerEtudiant = async (requete, reponse, next) => {
-    const etudiantId = requete.params.etudiantId;
-    let etudiant;
 
-    if (!etudiantId) {
-        return next(new HttpErreur("Vous devez spécifier un ID d'étudiant", 404));
+const supprimerEtudiant = async (requete, reponse, next) => {
+    const numeroDA = requete.params.numeroDA;
+    let etudiant, stage;
+
+    if (!numeroDA) {
+        return next(new HttpErreur("Vous devez spécifier un numéro DA d'étudiant", 404));
     }
 
     try {
-        etudiant = await Etudiant.findById(etudiantId);
+        etudiant = await Etudiant.findOne({ numeroDA: numeroDA });
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération de l'étudiant", 500));
     }
 
     if (!etudiant) {
-        return next(new HttpErreur("Aucun étudiant trouvé pour l'ID donné", 404));
+        return next(new HttpErreur("Aucun étudiant trouvé pour le numéro DA donné", 404));
     }
 
-    let listeCours = [];
-    for (let i = 0; i < etudiant.cours.length; i++) {
-        let cours;
+    //This part right here removes the student from the list of students in the internship element
+    if (etudiant.stageAssocie){
         try {
-            cours = await Cours.findById(etudiant.cours[i]);
+            stage = await Stage.findOne({ etudiantsInscrits: numeroDA }); //I don't know if this works or not, but I feel like it won't
         } catch {
-            return next(new HttpErreur("Erreur lors de la récupération du cours", 500));
+            return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
+        }
+        
+        if (!stage) {
+            return next(new HttpErreur("Aucun stage trouvé pour l'étudiant donné", 404));
         }
 
-        if (!cours) {
-            return next(new HttpErreur("Aucun cours trouvé pour l'ID donné", 404));
+        //Removes student from class
+        try {
+            for(let etudiant of stage.etudiantsInscrits){
+                if (etudiant == numeroDA) {
+                    stage.etudiantsInscrits.splice(stage.etudiantsInscrits.indexOf(etudiant), 1);
+                }
+            }
+            await stage.save();
+        } catch {
+            return next(new HttpErreur("Erreur lors de la mise à jour du stage", 500));
         }
-
-        listeCours.push(cours);
     }
 
+    //Deletes student from database
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
-
-        for (let i = 0; i < listeCours.length; i++) {
-            let etudiants = listeCours[i].etudiants;
-
-            for (let j = 0; j < etudiants.length; j++) {
-                if (listeCours[i].etudiants[j] == etudiant.id) {
-                    await listeCours[i].etudiants.pull(etudiant);
-                }
-            }
-            await listeCours[i].save();
-        }
-
         await etudiant.remove();
+        //await stage.save(); //I am extremely confused. I commented this out because that exact line is higher up, but there is no transaction thing up there, so I don't know if it works or not
         await session.commitTransaction();
     } catch (err) {
         console.log(err);
         return next(new HttpErreur("La suppression de l'étudiant a échouée", 500));
     }
 
-    reponse.status(200).json({ message: "Étudiant supprimé avec succès" });
+    reponse.status(200).json({ message: "L'étudiant a été supprimé avec succès" });
 }
-//TODO (change because this part is copied from TP2)
-const inscrireEtudiant = async (requete, reponse, next) => {
-    const etudiantId = requete.params.etudiantId;
-    const { coursId } = requete.body;
 
-    if (!etudiantId) {
-        return next(new HttpErreur("Vous devez spécifier un ID d'étudiant", 404));
+const inscrireEtudiant = async (requete, reponse, next) => {
+    const numeroDA = requete.params.numeroDA;
+    const { stageId } = requete.body;
+
+    if (!numeroDA) {
+        return next(new HttpErreur("Vous devez spécifier un DA d'étudiant", 404));
     }
 
-    if (!coursId) {
+    if (!stageId) {
         return next(new HttpErreur("Vous devez spécifier un ID de cours", 404));
     }
 
     let etudiant;
     try {
-        etudiant = await Etudiant.findById(etudiantId);
+        etudiant = await Etudiant.findOne({ numeroDA: numeroDA });
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération de l'étudiant", 500));
     }
 
     if (!etudiant) {
-        return next(new HttpErreur("Aucun étudiant trouvé pour l'ID donné", 404));
+        return next(new HttpErreur("Aucun étudiant trouvé pour le DA donné", 404));
     }
 
-    let cours;
+    let stage;
     try {
-        cours = await Cours.findById(coursId);
+        stage = await Stage.findById(stageId);
     } catch {
-        return next(new HttpErreur("Erreur lors de la récupération du cours", 500));
+        return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
     }
 
-    if (!cours) {
-        return next(new HttpErreur("Aucun cours trouvé pour l'ID donné"), 504);
+    if (!stage) {
+        return next(new HttpErreur("Aucun stage trouvé pour l'ID donné"), 504);
     }
 
     try {
-        etudiant.cours.push(coursId);
-        cours.etudiants.push(etudiantId);
+        etudiant.stageAssocie = stageId;
+        stage.etudiantsInscrits.push(numeroDA);
         await etudiant.save();
-        await cours.save();
+        await stage.save();
     } catch {
         return next(new HttpErreur("Erreur lors de la mise à jour de l'étudiant", 500));
     }

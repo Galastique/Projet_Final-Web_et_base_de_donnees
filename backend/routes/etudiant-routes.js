@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", controllerEtudiant.getEtudiants);
 router.post("/", controllerEtudiant.ajouterEtudiant);
-router.get("/:etudiantId", controllerEtudiant.accederEtudiant); //I'm not sure if we need this one
+router.get("/:etudiantId", controllerEtudiant.accederEtudiant);
 router.patch("/:etudiantId/inscrire", controllerEtudiant.inscrireEtudiant);
 
 module.exports = router;
