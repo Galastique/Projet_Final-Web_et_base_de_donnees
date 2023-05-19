@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const etudiantSchema = new Schema({
     numeroDA: { type: String, required: true },
-    nom: { type: String, required: true },
-    courriel: { type: String, required: true },
+    nomComplet: { type: String, required: true },
+    courrielContact: { type: String, required: true },
     profilSortie: { type: String, required: true }
 });
 
