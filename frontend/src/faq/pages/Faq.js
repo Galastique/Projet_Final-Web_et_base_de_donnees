@@ -1,10 +1,10 @@
 import React from "react";
 
 const Faq = (props) => {
-    return <div>
-        <p>
-            Foire aux questions - FAQ
-
+    return <div className="main_content">
+        <h2 className="main_content-title">Foire aux questions - FAQ</h2>
+        <hr/>
+        <div className="main_content-content">
             <p>Q - Est-ce que le stage est obligatoire?</p>
             <p>R - Le stage de fin d'études en informatique est obligatoire 
             pour l'obtention du diplôme collégial. </p><br/>
@@ -22,7 +22,7 @@ const Faq = (props) => {
 
             <p>Q - Quelles sont les dates prévues pour les stages?</p>
             <p>R - Les stages sont prévus du 21 janvier au 3 mai 2019. </p><br/>
-        </p>
+        </div>
     </div>;
 };
 
