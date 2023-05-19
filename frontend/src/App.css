@@ -1,11 +1,31 @@
-body {
-  background-color: #4e4a5f;
-  color: #f4f4f4;
-}
-
 * {
   margin: 0;
   padding: 0;
+}
+
+body {
+  background-color: #4e4a5f;
+  color: #f4f4f4;
+
+  overflow: overlay;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(134, 122, 202, 0.75);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(151, 106, 173);
+}
+
+header,
+footer {
+  padding: 0 10px;
 }
 
 main {

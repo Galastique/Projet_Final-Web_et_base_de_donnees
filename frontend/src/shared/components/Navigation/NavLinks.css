@@ -30,3 +30,7 @@
 .nav_links-button.active {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.nav_links li:last-of-type .nav_links-button {
+  width: 83.5%;
+}
