@@ -98,17 +98,15 @@ const Auth = () => {
         <React.Fragment>
           <ErrorModal error={error} onClear={clearError} />
           <Card className="authentication">
-            <h2>Connexion requise</h2>
-            <hr />
             <form onSubmit={authSubmitHandler}>
               {!isLoginMode && (
                 <Input
                   element="input"
                   id="name"
                   type="text"
-                  label="Your Name"
+                  label="Nom"
                   validators={[VALIDATOR_REQUIRE()]}
-                  errorText="Please enter a name."
+                  errorText="Entrez un nom."
                   onInput={inputHandler}
                 />
               )}
