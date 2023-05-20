@@ -149,7 +149,7 @@ const supprimerStage = async (request, response, next) => {
         const session = await mongoose.startSession();
         session.startTransaction();
 
-        await stage.remove();
+        await stage.deleteOne();
         for (let etudiant of etudiants) {
             etudiant.stageAssocie = null;
             await etudiant.save();

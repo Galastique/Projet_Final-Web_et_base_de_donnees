@@ -17,18 +17,18 @@ const getEtudiants = async (requete, reponse, next) => {
 };
 
 const ajouterEtudiant = async (requete, reponse, next) => {
-    const { numeroDA, nom, courriel, profilSortie } = requete.body;
+    const { numeroDA, nomComplet, courrielContact, profilSortie } = requete.body;
     let etudiantExiste;
 
     if (!numeroDA) {
         return next(new HttpErreur("Vous devez spécifier le numero DA de l'étudiant", 422));
     }
 
-    if (!nom) {
+    if (!nomComplet) {
         return next(new HttpErreur("Vous devez spécifier le nom complet de l'étudiant", 422));
     }
 
-    if (!courriel || !courriel.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    if (!courrielContact || !courrielContact.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         return next(new HttpErreur("Vous devez spécifier un courriel de contact valide pour l'étudiant", 422));
     }
 
@@ -46,7 +46,7 @@ const ajouterEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Étudiant existe déjà!", 422))
     }
 
-    let nouvelEtudiant = new Etudiant({ numeroDA, nom, courriel, profilSortie });
+    let nouvelEtudiant = new Etudiant({ numeroDA, nomComplet, courrielContact, profilSortie });
     try {
         await nouvelEtudiant.save();
     } catch {
@@ -79,7 +79,7 @@ const accederEtudiant = async (requete, reponse, next) => {
 
 const modifierEtudiant = async (requete, reponse, next) => {
     const numeroDA = requete.params.numeroDA;
-    const { nom } = requete.body;
+    const { nomComplet, courrielContact } = requete.body;
 
     if (!numeroDA) {
         return next(
@@ -87,9 +87,9 @@ const modifierEtudiant = async (requete, reponse, next) => {
         )
     }
 
-    if (!nom) {
+    if (!nomComplet && !courrielContact) {
         return next(
-            new HttpErreur("Vous devez spécifier le nouveau nom complet de l'étudiant", 422)
+            new HttpErreur("Vous devez spécifier le nouveau nom complet ou le nouveau courriel de l'étudiant", 422)
         )
     }
 
@@ -105,7 +105,8 @@ const modifierEtudiant = async (requete, reponse, next) => {
     }
 
     try {
-        etudiant.nom = nom;
+        nomComplet && (etudiant.nomComplet = nomComplet);
+        courrielContact && (etudiant.courrielContact = courrielContact);
         await etudiant.save();
     } catch {
         return next(new HttpErreur("La modification de l'étudiant a échouée", 500));
@@ -135,7 +136,7 @@ const supprimerEtudiant = async (requete, reponse, next) => {
     //This part right here removes the student from the list of students in the internship element
     if (etudiant.stageAssocie){
         try {
-            stage = await Stage.findOne({ etudiantsInscrits: numeroDA }); //I don't know if this works or not, but I feel like it won't
+            stage = await Stage.findOne({ etudiantsInscrits: etudiant.id });
         } catch {
             return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
         }
@@ -146,9 +147,9 @@ const supprimerEtudiant = async (requete, reponse, next) => {
 
         //Removes student from class
         try {
-            for(let etudiant of stage.etudiantsInscrits){
-                if (etudiant == numeroDA) {
-                    stage.etudiantsInscrits.splice(stage.etudiantsInscrits.indexOf(etudiant), 1);
+            for(let e of stage.etudiantsInscrits){
+                if (e == etudiant.id) {
+                    stage.etudiantsInscrits.splice(stage.etudiantsInscrits.indexOf(e), 1);
                 }
             }
             await stage.save();
@@ -161,8 +162,7 @@ const supprimerEtudiant = async (requete, reponse, next) => {
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
-        await etudiant.remove();
-        //await stage.save(); //I am extremely confused. I commented this out because that exact line is higher up, but there is no transaction thing up there, so I don't know if it works or not
+        await etudiant.deleteOne();
         await session.commitTransaction();
     } catch (err) {
         console.log(err);
@@ -181,7 +181,7 @@ const inscrireEtudiant = async (requete, reponse, next) => {
     }
 
     if (!stageId) {
-        return next(new HttpErreur("Vous devez spécifier un ID de cours", 404));
+        return next(new HttpErreur("Vous devez spécifier un ID de stage", 404));
     }
 
     let etudiant;
@@ -195,6 +195,10 @@ const inscrireEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Aucun étudiant trouvé pour le DA donné", 404));
     }
 
+    if (etudiant.stageAssocie) {
+        return next(new HttpErreur("L'étudiant spécifié est déjà associé à un stage", 404));
+    }
+
     let stage;
     try {
         stage = await Stage.findById(stageId);
@@ -206,9 +210,17 @@ const inscrireEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Aucun stage trouvé pour l'ID donné"), 504);
     }
 
+    if (stage.etudiantsInscrits.indexOf(numeroDA) != -1) {
+        return next(new HttpErreur("L'étudiant spécifié participe déjà au stage"), 504);
+    }
+
+    if (stage.etudiantsInscrits.length >= stage.nbrPostesDisponibles) {
+        return next(new HttpErreur("Le stage est déjà complet!"), 504);
+    }
+
     try {
         etudiant.stageAssocie = stageId;
-        stage.etudiantsInscrits.push(numeroDA);
+        stage.etudiantsInscrits.push(etudiant.id);
         await etudiant.save();
         await stage.save();
     } catch {
