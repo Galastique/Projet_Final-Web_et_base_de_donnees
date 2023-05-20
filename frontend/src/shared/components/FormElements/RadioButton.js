@@ -1,16 +1,6 @@
-import React, { useReducer, useEffect } from "react";
+import React from "react";
 
 import "./RadioButton.css";
-
-/* 
-props:
-- id
-- group
-- value
-- label
-- onInput
-- checked
-*/
 
 const RadioButton = (props) => {
   const changeHandler = (event) => {
