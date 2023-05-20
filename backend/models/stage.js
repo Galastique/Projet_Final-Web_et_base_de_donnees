@@ -12,7 +12,7 @@ const stageSchema = new Schema({
     nbrPostesDisponibles: { type: Int32, required: true },
     descriptionStage: { type: String, required: true },
     renumeration: { type: Float32Array, required: true },
-    etudiantsInscrits: [{ type: mongoose.Types.ObjectId, required: false, ref: "Etudiant" }],
+    etudiantsInscrits: [{ type: mongoose.Types.ObjectId, required: false, ref: "Etudiant" }]
 });
 
 module.exports = mongoose.model("Stage", stageSchema);

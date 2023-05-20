@@ -1,10 +1,8 @@
-const { v4: uuidv4 } = require("uuid");
 const HttpErreur = require("../models/http-erreur");
 const { mongoose } = require("mongoose");
 
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
-const stage = require("../models/stage");
 
 const getEtudiants = async (requete, reponse, next) => {
     let etudiants;
@@ -12,7 +10,7 @@ const getEtudiants = async (requete, reponse, next) => {
     try {
         etudiants = await Etudiant.find({});
     } catch {
-        return next(new HttpErreur("Erreur accès étudiant"), 500);
+        return next(new HttpErreur("Erreur accès étudiant", 500));
     }
 
     reponse.json({ etudiants: etudiants.map(etudiant => etudiant.toObject({ getters: true })) });
@@ -30,7 +28,7 @@ const ajouterEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Vous devez spécifier le nom complet de l'étudiant", 422));
     }
 
-    if (!courriel || courriel.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    if (!courriel || !courriel.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         return next(new HttpErreur("Vous devez spécifier un courriel de contact valide pour l'étudiant", 422));
     }
 
