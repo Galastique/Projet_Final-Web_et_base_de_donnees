@@ -76,7 +76,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          "http://localhost:3000/auth/connexion",
+          "http://localhost:5000/auth/connexion",
           "POST",
           JSON.stringify({
             courriel: formState.inputs.email.value,
@@ -92,13 +92,13 @@ const Auth = () => {
     } else {
       try {
         const responseData = await sendRequest(
-          "http://localhost:3000/auth/inscription",
+          "http://localhost:5000/auth/inscription",
           "POST",
           JSON.stringify({
-            nomUtilisateur: formState.inputs.name.value,
+            nom: formState.inputs.name.value,
             courriel: formState.inputs.email.value,
             motDePasse: formState.inputs.password.value,
-            type: formState.inputs.type.value, // TODO ADD TYPE SELECTION IN FORM (RADIOBUTTONS)
+            type: formState.inputs.type.value,
           }),
           { "Content-Type": "application/json" }
         );
