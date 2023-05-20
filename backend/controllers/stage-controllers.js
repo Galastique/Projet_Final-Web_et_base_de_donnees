@@ -16,7 +16,7 @@ const getStages = async (request, response, next) => {
     response.json({stages: stage.map((stage) => stage.toObject({getters: true}))});
 };
 
-const getStageById = async (request, response, next) => {
+const accederStage = async (request, response, next) => {
     const stageId = request.params.stageId;
 
     let stage;
@@ -33,7 +33,7 @@ const getStageById = async (request, response, next) => {
     response.json({ stage: stage.toObject({ getters: true }) });
 };
 
-const createStage = async (request, response, next) => {
+const ajouterStage = async (request, response, next) => {
     const { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
     const nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration });
 
@@ -78,7 +78,7 @@ const createStage = async (request, response, next) => {
     response.status(201).json({ stage: nouveauStage });
 };
 
-const updateStage = async (request, response, next) => {
+const modifierStage = async (request, response, next) => {
     const { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
     const stageId = request.params.stageId;
 
@@ -119,7 +119,7 @@ const updateStage = async (request, response, next) => {
     response.status(200).json({ stage: stage.toObject({ getters: true }) });
 };
 
-const deleteStage = async (request, response, next) => {
+const supprimerStage = async (request, response, next) => {
     const stageId = request.params.stageId;
 
     let stage;
@@ -164,7 +164,7 @@ const deleteStage = async (request, response, next) => {
 };
 
 exports.getStages = getStages;
-exports.getStageById = getStageById;
-exports.createStage = createStage;
-exports.updateStage = updateStage;
-exports.deleteStage = deleteStage;
+exports.accederStage = accederStage;
+exports.ajouterStage = ajouterStage;
+exports.modifierStage = modifierStage;
+exports.supprimerStage = supprimerStage;

@@ -1,5 +1,5 @@
 const express = require("express");
-const controllerStage = require("../controllers/stages-controllers");
+const controllerStage = require("../controllers/stage-controllers");
 const router = express.Router();
 
 router.get("/", controllerStage.getStages);

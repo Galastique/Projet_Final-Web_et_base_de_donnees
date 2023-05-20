@@ -3,19 +3,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
 
-const ajouterStageRoutes = require("./routes/ajouter-stage-routes");
-const ajouterEtudiantRoutes = require("./routes/ajouter-etudiant-routes");
-const listeStageDisponiblesRoutes = require("./routes/liste-stages-routes");
-const listeEtudiantsRoutes = require("./routes/liste-etudiants-routes");
+const stageRoutes = require("./routes/stage-routes");
+const etudiantRoutes = require("./routes/etudiant-routes");
 const HttpErreur = require("./models/http-erreur");
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use("/api/ajouter-stage-routes", ajouterStageRoutes);
-app.use("/api/ajouter-etudiant-routes", ajouterEtudiantRoutes);
-app.use("/api/liste-stages-routes", listeStageDisponiblesRoutes);
-app.use("/api/liste-etudiants-routes", listeEtudiantsRoutes);
+app.use("/api/stage-routes", stageRoutes);
+app.use("/api/etudiant-routes", etudiantRoutes);
 
 app.use((requete, reponse, next) => {
     return next(new HttpErreur("Route non trouvée", 404));

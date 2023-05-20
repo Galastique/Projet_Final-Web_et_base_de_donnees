@@ -9,9 +9,9 @@ const stageSchema = new Schema({
     nomEntreprise: { type: String, required: true },
     adresseEntreprise: { type: String, required: true },
     typeStage: { type: String, required: true },
-    nbrPostesDisponibles: { type: Int32, required: true },
+    nbrPostesDisponibles: { type: Number, required: true },
     descriptionStage: { type: String, required: true },
-    renumeration: { type: Float32Array, required: true },
+    renumeration: { type: Number, required: true },
     etudiantsInscrits: [{ type: mongoose.Types.ObjectId, required: false, ref: "Etudiant" }]
 });
 
