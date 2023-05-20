@@ -20,7 +20,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(151, 106, 173);
+  background: rgba(164, 153, 229, 0.75);
 }
 
 header,

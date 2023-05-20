@@ -1,0 +1,31 @@
+.radioButton {
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid rgb(117, 90, 236);
+  border-radius: 4px;
+  background: rgb(117, 90, 236);
+  color: white;
+  cursor: pointer;
+  margin-right: 1rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.radioButton:focus {
+  outline: none;
+}
+
+.radioButton:hover,
+.radioButton:active {
+  background: rgb(140, 116, 245);
+  border-color: rgb(140, 116, 245);
+}
+
+.radioButton:disabled,
+.radioButton:hover:disabled,
+.radioButton:active:disabled {
+  background: #ccc;
+  color: #979797;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
