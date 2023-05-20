@@ -14,6 +14,7 @@ import Card from "../components/UIElements/Card";
 import ErrorModal from "../components/UIElements/ErrorModal";
 import Input from "../components/FormElements/Input";
 import Button from "../components/FormElements/Button";
+import RadioButton from "../components/FormElements/RadioButton";
 
 import "./Auth.css";
 
@@ -21,6 +22,8 @@ const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { error, sendRequest, clearError } = useHttpClient();
+
+  const [checkedOnce, setCheckedOnce] = useState(false);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -38,20 +41,27 @@ const Auth = () => {
 
   const switchModeHandler = () => {
     if (!isLoginMode) {
+      setCheckedOnce(false);
       setFormData(
         {
           ...formState.inputs,
           name: undefined,
+          type: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
+      setCheckedOnce(true);
       setFormData(
         {
           ...formState.inputs,
           name: {
             value: "",
             isValid: false,
+          },
+          type: {
+            value: "etudiant",
+            isValid: true,
           },
         },
         false
@@ -65,9 +75,15 @@ const Auth = () => {
     event.preventDefault();
     if (isLoginMode) {
       try {
-        // TODO REQUEST AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        const responseData = await sendRequest();
-
+        const responseData = await sendRequest(
+          "http://localhost:3000/auth/connexion",
+          "POST",
+          JSON.stringify({
+            courriel: formState.inputs.email.value,
+            motDePasse: formState.inputs.password.value,
+          }),
+          { "Content-Type": "application/json" }
+        );
         console.log(responseData);
         auth.login(responseData.utilisateur.id);
       } catch (err) {
@@ -75,9 +91,17 @@ const Auth = () => {
       }
     } else {
       try {
-        // TODO REQUEST AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        const responseData = await sendRequest();
-
+        const responseData = await sendRequest(
+          "http://localhost:3000/auth/inscription",
+          "POST",
+          JSON.stringify({
+            nomUtilisateur: formState.inputs.name.value,
+            courriel: formState.inputs.email.value,
+            motDePasse: formState.inputs.password.value,
+            type: formState.inputs.type.value, // TODO ADD TYPE SELECTION IN FORM (RADIOBUTTONS)
+          }),
+          { "Content-Type": "application/json" }
+        );
         console.log(responseData);
         auth.login(responseData.utilisateur.id);
       } catch (err) {
@@ -128,6 +152,30 @@ const Auth = () => {
                 errorText="Entrez un mot de passe valide, au moins 5 caractères."
                 onInput={inputHandler}
               />
+              {!isLoginMode && (
+                <div>
+                  <RadioButton
+                    group="type"
+                    value="etudiant"
+                    label="Étudiant"
+                    checked={checkedOnce}
+                    setCheckedOnce={setCheckedOnce}
+                    formState={formState}
+                  />
+                  <RadioButton
+                    group="type"
+                    value="coordonateur"
+                    label="Coordonateur"
+                    formState={formState}
+                  />
+                  <RadioButton
+                    group="type"
+                    value="employeur"
+                    label="Employeur"
+                    formState={formState}
+                  />
+                </div>
+              )}
               <Button type="submit" disabled={!formState.isValid}>
                 {isLoginMode ? "Connexion" : "Inscription"}
               </Button>
