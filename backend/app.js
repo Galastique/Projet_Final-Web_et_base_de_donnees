@@ -10,8 +10,8 @@ const HttpErreur = require("./models/http-erreur");
 const app = express();
 app.use(bodyParser.json());
 
-app.use("/api/stages", stageRoutes);
-app.use("/api/etudiants", etudiantRoutes);
+app.use("/stages", stageRoutes);
+app.use("/etudiants", etudiantRoutes);
 
 app.use((requete, reponse, next) => {
     return next(new HttpErreur("Route non trouvée", 404));
