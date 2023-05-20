@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useForm } from "../../shared/hooks/form-hook";
 
 import {
   VALIDATOR_EMAIL,
-  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
+  VALIDATOR_NUMBERDA,
 } from "../../shared/util/validators.js";
 
 import Card from "../../shared/components/UIElements/Card";
@@ -15,15 +15,22 @@ import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 
 const AjouterEtudiant = (props) => {
-  const [isLoginMode, setIsLoginMode] = useState(true);
   const { error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
     {
+      number: {
+        value: "",
+        isValid: false,
+      },
+      name: {
+        value: "",
+        isValid: false,
+      },
       email: {
         value: "",
         isValid: false,
       },
-      password: {
+      profile: {
         value: "",
         isValid: false,
       },
@@ -56,8 +63,8 @@ const AjouterEtudiant = (props) => {
                   id="number"
                   type="text"
                   label="Numéro de DA"
-                  validators={[VALIDATOR_REQUIRE()]}
-                  errorText="Entrez un numéro."
+                  validators={[VALIDATOR_NUMBERDA()]}
+                  errorText="Entrez un numéro valide. (7 Chiffres)"
                   onInput={inputHandler}
                 />
 
@@ -90,7 +97,7 @@ const AjouterEtudiant = (props) => {
                 onInput={inputHandler}
               />
               <Button type="submit" disabled={!formState.isValid}>
-                "Ajouter"
+                Ajouter
               </Button>
             </form>
           </Card>
