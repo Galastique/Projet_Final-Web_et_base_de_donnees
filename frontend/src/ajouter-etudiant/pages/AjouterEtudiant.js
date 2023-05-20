@@ -40,11 +40,22 @@ const AjouterEtudiant = (props) => {
 
   const ajouter = async (event) => {
     event.preventDefault()
-    //Todo
-  }
-
-  const envoyer = () => {
-    //Todo
+    try {
+      const responseData = await sendRequest(
+        //"http://localhost:3000/??", TODO
+        //"POST",
+        JSON.stringify({
+          numeroDA: formState.inputs.number.value,
+          nom: formState.inputs.name.value,
+          courriel: formState.inputs.email.value,
+          profil: formState.inputs.profile.value,
+        }),
+        { "Content-Type": "application/json" }
+      );
+      console.log(responseData);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return(
