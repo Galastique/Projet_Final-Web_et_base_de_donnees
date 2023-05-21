@@ -80,8 +80,7 @@ const AjouterStage = (props) => {
           { "Content-Type": "application/json" }
         );
         console.log(responseData);
-        //TODO: GET ID STAGE
-        emailjs.send("service_54jl5rh", "template_szqe3j1", { nomCoordonateur: "Sylvain Labranche", stageId: "ID_STAGE_ICI" }, "fRUoFLAtGiFtdiQUe");
+        emailjs.send("service_54jl5rh", "template_szqe3j1", { nomCoordonateur: "Sylvain Labranche", stageId: responseData.stage._id }, "fRUoFLAtGiFtdiQUe");
         alert("Le stage a été ajouté avec succès!");
       } catch (err) {
         console.error(err);
