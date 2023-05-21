@@ -52,6 +52,7 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier un type de stage valide", 422));
     } else {
         typeStage = typeStage.toLowerCase();
+        typeStage = typeStage.substring(0, 1).toUpperCase() + typeStage.substring(1).toLowerCase();
     }
 
     if (!nbrPostesDisponibles) {
