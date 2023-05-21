@@ -3,7 +3,6 @@ const { mongoose } = require("mongoose");
 
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
-const etudiant = require("../models/etudiant");
 
 const getStages = async (request, response, next) => {
     let stages;
@@ -35,7 +34,7 @@ const accederStage = async (request, response, next) => {
 };
 
 const ajouterStage = async (request, response, next) => {
-    let { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
+    let { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration } = request.body;
     
     if (!nomPersonneContact || !courrielPersonneContact || !telephonePersonneContact) {
         return next(new HttpErreur("Vous devez spécifier les informations de contact pour le stage", 422));
@@ -63,7 +62,7 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier une description pour le stage", 422));
     }
 
-    if (!renumeration || isNaN(renumeration)) {
+    if (!remuneration || isNaN(remuneration)) {
         return next(new HttpErreur("Vous devez spécifier une rénumération valide pour le stage. (0 = non-rémunéré, 15.25 à 50 = taux horaire, plus de 50 = paiement fixe)", 422));
     }
 
@@ -78,7 +77,7 @@ const ajouterStage = async (request, response, next) => {
     }
 
 
-    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration: renumeration });
+    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration: remuneration });
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -93,10 +92,10 @@ const ajouterStage = async (request, response, next) => {
 };
 
 const modifierStage = async (request, response, next) => {
-    const { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
+    const { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration } = request.body;
     const stageId = request.params.stageId;
 
-    if (!nomPersonneContact && !courrielPersonneContact && !telephonePersonneContact && !nomEntreprise && !adresseEntreprise && !typeStage && !nbrPostesDisponibles && !descriptionStage && !renumeration) {
+    if (!nomPersonneContact && !courrielPersonneContact && !telephonePersonneContact && !nomEntreprise && !adresseEntreprise && !typeStage && !nbrPostesDisponibles && !descriptionStage && !remuneration) {
         return next(new HttpErreur("Vous devez spécifier au moins un élément à modifier", 422));
     }
 
@@ -108,7 +107,7 @@ const modifierStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier un type de stage valide", 422));
     }
 
-    if (renumeration && isNaN(renumeration)) {
+    if (remuneration && isNaN(remuneration)) {
         return next(new HttpErreur("Vous devez spécifier une rénumération valide pour le stage. (0 = non-rémunéré, 15.25 à 50 = taux horaire, plus de 50 = paiement fixe)", 422));
     }
 
@@ -124,7 +123,7 @@ const modifierStage = async (request, response, next) => {
         typeStage && (stage.typeStage = typeStage);
         nbrPostesDisponibles && (stage.nbrPostesDisponibles = nbrPostesDisponibles);
         descriptionStage && (stage.descriptionStage = descriptionStage);
-        renumeration && (stage.renumeration = renumeration);
+        remuneration && (stage.remuneration = remuneration);
         await stage.save();
     } catch {
         return next(new HttpErreur("La modification du stage a échouée", 500));
@@ -156,9 +155,9 @@ const supprimerStage = async (request, response, next) => {
         for (let etudiant of tousEtudiants) {
             if (etudiant.stageAssocie == stageId) {
                 etudiant.stageAssocie = null;
-                etudiant.demandesStage.splice(etudiant.demandesStage.indexOf(stageId), 1);
-                await etudiant.save();
             }
+            etudiant.demandesStage.splice(etudiant.demandesStage.indexOf(stageId), 1);
+            await etudiant.save();
         }
 
         await stage.deleteOne();
@@ -231,6 +230,8 @@ const inscrireEtudiant = async (requete, reponse, next) => {
     try {
         etudiant.stageAssocie = stageId;
         stage.etudiantsInscrits.push(etudiant.id);
+        etudiant.demandesStage.splice(etudiant.demandesStage.indexOf(stageId), 1);
+        stage.demandesStage.splice(stage.demandesStage.indexOf(etudiant._id), 1);
         await etudiant.save();
         await stage.save();
     } catch {

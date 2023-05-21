@@ -11,7 +11,7 @@ const stageSchema = new Schema({
     typeStage: { type: String, required: true },
     nbrPostesDisponibles: { type: Number, required: true },
     descriptionStage: { type: String, required: true },
-    renumeration: { type: Number, required: true },
+    remuneration: { type: Number, required: true },
     etudiantsInscrits: [{ type: mongoose.Types.ObjectId, required: false, ref: "Etudiant" }],
     demandesStage: [{ type: mongoose.Types.ObjectId, required: false, ref: "Etudiant" }]
 });

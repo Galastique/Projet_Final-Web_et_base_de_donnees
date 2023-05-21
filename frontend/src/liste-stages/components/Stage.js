@@ -38,7 +38,7 @@ const Stage = (props) => {
                             <li>Description: {props.stage.descriptionStage}</li>
                             <li>Type: {props.stage.typeStage}</li>
                             <li>Nombre de postes disponibles: {props.stage.nbrPostesDisponibles}</li>
-                            <li>Rénumération: {props.stage.renumeration}</li>
+                            <li>Rénumération: {props.stage.remuneration}</li>
                             {props.stage.etudiantsInscrits.length !== 0 ? (
                                 <li>Étudiants inscrits:
                                     <ul className="main_content-content-normal_list">
