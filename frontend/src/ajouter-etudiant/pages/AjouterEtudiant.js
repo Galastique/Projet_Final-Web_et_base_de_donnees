@@ -16,7 +16,7 @@ import Button from "../../shared/components/FormElements/Button";
 
 const AjouterEtudiant = (props) => {
   const { error, sendRequest, clearError } = useHttpClient();
-  const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler] = useForm(
     {
       number: {
         value: "",
