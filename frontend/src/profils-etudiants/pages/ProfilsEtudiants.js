@@ -2,8 +2,8 @@ import React from "react";
 
 const ProfilsEtudiants = (props) => {
     return <div className="main_content">
-        <a> Liens avec ancrage pour afficher selon le profil </a><br /><br />
-        <h2 className="main_content-title">Profils étudiants</h2>
+        <h2 className="main_content-title">Édition 2023</h2>
+        <h4 className="main_content-subtitle">Profiles étudiants</h4>
         <hr/>
         <div className="main_content-content">
             <h4 className="main_content-subtitle">Nos étudiants en Gestion de réseaux et sécurité ont suivi des cours leur permettant de:</h4>
