@@ -153,7 +153,7 @@ const Auth = () => {
                 onInput={inputHandler}
               />
               {!isLoginMode && (
-                <div>
+                <div className="form-radio-group">
                   <RadioButton
                     group="type"
                     value="etudiant"
