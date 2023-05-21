@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Footer.css";
 
-const MainNavigation = (props) => {
+const Footer = (props) => {
   return (
     <footer className="main_footer">
       <p className="main_footer-coordinator">
@@ -22,4 +22,4 @@ const MainNavigation = (props) => {
   );
 };
 
-export default MainNavigation;
+export default Footer;
