@@ -66,6 +66,16 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier une rénumération valide pour le stage. (0 = non-rémunéré, 15.25 à 50 = taux horaire, plus de 50 = paiement fixe)", 422));
     }
 
+    try {
+        stageExiste = await Stage.findOne({ nomEntreprise: nomEntreprise, typeStage: typeStage, descriptionStage: descriptionStage });
+    } catch {
+        return next(new HttpErreur("Échec vérification existance stage", 500));
+    }
+
+    if (stageExiste) {
+        return next(new HttpErreur("Ce stage existe déjà!", 422))
+    }
+
 
     let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration: remuneration });
     try {
