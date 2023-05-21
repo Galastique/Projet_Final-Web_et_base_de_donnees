@@ -2,7 +2,8 @@ import React from "react";
 
 const Faq = (props) => {
     return <div className="main_content">
-        <h2 className="main_content-title">Foire aux questions - FAQ</h2>
+        <h2 className="main_content-title">Édition 2023</h2>
+        <h4 className="main_content-subtitle">Foire aux questions - FAQ</h4>
         <hr/>
         <div className="main_content-content">
             <p>Q - Est-ce que le stage est obligatoire?</p>
