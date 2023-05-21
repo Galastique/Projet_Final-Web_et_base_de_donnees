@@ -8,6 +8,7 @@ import AjouterStage from "./ajouter-stage/pages/AjouterStage";
 import AjouterEtudiant from "./ajouter-etudiant/pages/AjouterEtudiant";
 import ListeStagesDisponibles from "./liste-stages/pages/ListeStages";
 import ListeEtudiants from "./liste-etudiants/pages/ListeEtudiants";
+import PagePersonnelleEtudiant from "./page-personnelle/pages/PagePersonnelleEtudiant";
 import FAQ from "./faq/pages/Faq";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Footer from "./shared/components/Footer";
@@ -54,8 +55,8 @@ function App() {
             <Route path="/liste-stages-disponibles" exact>
               <ListeStagesDisponibles />
             </Route>
-            <Route path="/page-personnelle-etudiant" exact>
-              <Accueil /> {/* TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS */}
+            <Route path="/:numeroDA/page-personnelle" exact>
+              <PagePersonnelleEtudiant />
             </Route>
             <Route path="/faq" exact>
               <FAQ />

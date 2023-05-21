@@ -59,8 +59,8 @@ const NavLinks = (props) => {
       )}
       {auth.isLoggedIn && auth.userType === "etudiant" && (
         <li>
-          <NavLink to={`/page-personnelle-etudiant`} className="nav_links-button">
-            Ma Page Personnelle {/* TODO CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS */}
+          <NavLink to={`/${auth.userId}/page-personnelle`} className="nav_links-button">
+            Ma Page Personnelle
           </NavLink>
         </li>
       )}

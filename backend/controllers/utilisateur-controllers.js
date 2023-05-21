@@ -31,7 +31,10 @@ const inscription = async (requete, reponse, next) => {
         return next(new HttpErreur("Erreur lors de l'ajout de l'utilisateur", 422));
     }
 
-    reponse.status(201).json({ utilisateur: nouvelUtilisateur.toObject({ getter: true }) });
+    reponse.json({
+        message: "Inscription réussie!",
+        utilisateur: nouvelUtilisateur.toObject({ getters: true })
+    });
 };
 
 const connexion = async (requete, reponse, next) => {
