@@ -3,6 +3,7 @@ const { mongoose } = require("mongoose");
 
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
+const etudiant = require("../models/etudiant");
 
 const getStages = async (request, response, next) => {
     let stages;
@@ -34,7 +35,7 @@ const accederStage = async (request, response, next) => {
 };
 
 const ajouterStage = async (request, response, next) => {
-    let { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration } = request.body;
+    let { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
     
     if (!nomPersonneContact || !courrielPersonneContact || !telephonePersonneContact) {
         return next(new HttpErreur("Vous devez spécifier les informations de contact pour le stage", 422));
@@ -62,7 +63,7 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier une description pour le stage", 422));
     }
 
-    if (!remuneration || isNaN(remuneration)) {
+    if (!renumeration || isNaN(renumeration)) {
         return next(new HttpErreur("Vous devez spécifier une rénumération valide pour le stage. (0 = non-rémunéré, 15.25 à 50 = taux horaire, plus de 50 = paiement fixe)", 422));
     }
 
@@ -77,7 +78,7 @@ const ajouterStage = async (request, response, next) => {
     }
 
 
-    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration: remuneration });
+    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration: renumeration });
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -146,38 +147,102 @@ const supprimerStage = async (request, response, next) => {
         return next(new HttpErreur("Il n'y a pas de stage pour l'ID donné", 404));
     }
 
-    let etudiants = [];
-    try {
-        let tousEtudiants = await Etudiant.find();
-        for (let etudiant of tousEtudiants) {
-            if (etudiant.stageAssocie == stageId) {
-                etudiants.push(etudiant);
-            }
-        }
-    } catch {
-        return next(new HttpErreur("Erreur lors de la récupération de la liste de tous les étudiants qui ont le stage", 500));
-    }
-
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
 
-        await stage.deleteOne();
-        for (let etudiant of etudiants) {
-            etudiant.stageAssocie = null;
-            await etudiant.save();
-        };
+        //Removes internships & requests from students
+        let tousEtudiants = await Etudiant.find({});
+        for (let etudiant of tousEtudiants) {
+            if (etudiant.stageAssocie == stageId) {
+                etudiant.stageAssocie = null;
+                etudiant.demandesStage.splice(etudiant.demandesStage.indexOf(stageId), 1);
+                await etudiant.save();
+            }
+        }
 
+        await stage.deleteOne();
         await session.commitTransaction();
-    } catch {
+    } catch(err) {
+        console.log(err);
         return next(new HttpErreur("La suppression du stage a échoué", 500));
     }
 
     response.status(200).json({ message: "Le stage a été supprimé" });
 };
 
+const inscrireEtudiant = async (requete, reponse, next) => {
+    const stageId = requete.params.stageId;
+    const { etudiantId } = requete.body;
+
+    if (!stageId) {
+        return next(new HttpErreur("Vous devez spécifier un ID de stage", 404));
+    }
+
+    if (!etudiantId) {
+        return next(new HttpErreur("Vous devez spécifier un ID d'étudiant", 404));
+    }
+
+    let stage;
+    try {
+        stage = await Stage.findOne({ id: stageId });
+    } catch {
+        return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
+    }
+
+    if (!stage) {
+        return next(new HttpErreur("Aucun stage trouvé pour l'ID donné", 404));
+    }
+
+    if (stage.etudiantsInscrits.indexOf(etudiantId) != -1) {
+        return next(new HttpErreur("L'étudiant spécifié participe déjà au stage"), 504);
+    }
+
+    if (stage.etudiantsInscrits.length >= stage.nbrPostesDisponibles) {
+        return next(new HttpErreur("Le stage est déjà complet!"), 504);
+    }
+
+    let etudiant;
+    try {
+        etudiant = await Etudiant.findById(etudiantId);
+    } catch {
+        return next(new HttpErreur("Erreur lors de la récupération de l'étudiant", 500));
+    }
+
+    if (!etudiant) {
+        return next(new HttpErreur("Aucun étudiant trouvé pour l'ID donné"), 504);
+    }
+
+    if (etudiant.stageAssocie) {
+        return next(new HttpErreur("L'étudiant spécifié est déjà associé à un stage", 404));
+    }
+
+    let demandeStage;
+    try {
+        demandeStage = await Etudiant.findOne({ id: etudiantId, demandesStage: stageId });
+    } catch {
+        return next(new HttpErreur("Erreur lors de la récupération de la liste de demandes de stage de l'étudiant", 500));
+    }
+
+    if (!demandeStage) {
+        return next(new HttpErreur("L'étudiant n'a pas postulé au stage!"), 504);
+    }
+
+    try {
+        etudiant.stageAssocie = stageId;
+        stage.etudiantsInscrits.push(etudiant.id);
+        await etudiant.save();
+        await stage.save();
+    } catch {
+        return next(new HttpErreur("Erreur lors de la mise à jour de l'étudiant", 500));
+    }
+
+    reponse.status(200).json({ etudiant: etudiant.toObject({ getters: true }) });
+}
+
 exports.getStages = getStages;
 exports.accederStage = accederStage;
 exports.ajouterStage = ajouterStage;
 exports.modifierStage = modifierStage;
 exports.supprimerStage = supprimerStage;
+exports.accepterEtudiant = inscrireEtudiant;

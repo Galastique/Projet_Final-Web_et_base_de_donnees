@@ -136,7 +136,7 @@ const supprimerEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Aucun étudiant trouvé pour le numéro DA donné", 404));
     }
 
-    //This part right here removes the student from the list of students in the internship element
+    //Removes student from internship
     if (etudiant.stageAssocie){
         try {
             stage = await Stage.findOne({ etudiantsInscrits: etudiant.id });
@@ -148,7 +148,6 @@ const supprimerEtudiant = async (requete, reponse, next) => {
             return next(new HttpErreur("Aucun stage trouvé pour l'étudiant donné", 404));
         }
 
-        //Removes student from class
         try {
             for(let e of stage.etudiantsInscrits){
                 if (e == etudiant.id) {
@@ -165,6 +164,28 @@ const supprimerEtudiant = async (requete, reponse, next) => {
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
+
+        //Removes student from internship requests
+        for (let stage of etudiant.demandesStage) {
+            try {
+                stage = await Stage.findOne({ id: stage });
+            } catch {
+                return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
+            }
+
+            try {
+                for (let e of stage.demandesStage) {
+                    if (e == etudiant.id) {
+                        stage.demandesStage.splice(stage.demandesStage.indexOf(e), 1);
+                        await stage.save();
+                    }
+                }
+                await stage.save();
+            } catch {
+                return next(new HttpErreur("Erreur lors de la mise à jour du stage", 500));
+            }
+        }
+        
         await etudiant.deleteOne();
         await session.commitTransaction();
     } catch {
@@ -220,9 +241,20 @@ const inscrireEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Le stage est déjà complet!"), 504);
     }
 
+    let demandeStage;
     try {
-        etudiant.stageAssocie = stageId;
-        stage.etudiantsInscrits.push(etudiant.id);
+        demandeStage = await Etudiant.findOne({ numeroDA: numeroDA, demandesStage: stageId });
+    } catch {
+        return next(new HttpErreur("Erreur lors de la récupération de la liste de demandes de stage de l'étudiant", 500));
+    }
+
+    if (demandeStage) {
+        return next(new HttpErreur("L'étudiant spécifié a déjà envoyé une demande à ce stage!"), 504);
+    }
+
+    try {
+        etudiant.demandesStage.push(stageId);
+        stage.demandesStage.push(etudiant.id);
         await etudiant.save();
         await stage.save();
     } catch {
