@@ -29,31 +29,38 @@ const NavLinks = (props) => {
           Profils étudiants
         </NavLink>
       </li>
-      {auth.isLoggedIn && (
+      {auth.isLoggedIn && auth.userType === "employeur" && (
         <li>
           <NavLink to={`/ajouter-stage`} className="nav_links-button">
             Ajouter Stage
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {auth.isLoggedIn && auth.userType === "coordonateur" && (
         <li>
           <NavLink to={`/ajouter-etudiant`} className="nav_links-button">
             Ajouter Étudiant
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {auth.isLoggedIn && (auth.userType === "etudiant" || auth.userType === "coordonateur" || auth.userType === "employeur") && (
         <li>
           <NavLink to={`/liste-stages-disponibles`} className="nav_links-button">
             Liste Stages Disponibles
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {auth.isLoggedIn && auth.userType === "coordonateur" && (
         <li>
           <NavLink to={`/liste-etudiants`} className="nav_links-button">
             Liste Etudiants
+          </NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && auth.userType === "etudiant" && (
+        <li>
+          <NavLink to={`/page-personnelle-etudiant`} className="nav_links-button">
+            Ma Page Personnelle {/* TODO CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS CHECK THIS */}
           </NavLink>
         </li>
       )}

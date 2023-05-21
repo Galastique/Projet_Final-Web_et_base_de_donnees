@@ -18,53 +18,114 @@ import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(false);
+  const [userType, setUserType] = useState(false);
 
-  const login = useCallback((userId) => {
+  const login = useCallback((userId, userType) => {
     setIsLoggedIn(true);
     setUserId(userId);
+    setUserType(userType);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
     setUserId(null);
+    setUserType(null);
   }, []);
 
   let routes;
 
   if (isLoggedIn) {
-    // TODO CHECK THE ACCOUNT TYPE (PROBABLY BY USING MORE IFS IN THIS ONE)
-    routes = (
-      <Switch>
-        <Route path="/" exact>
-          <Accueil />
-        </Route>
-        <Route path="/deroulement-stage-employeurs" exact>
-          <DeroulementStageEmployeurs />
-        </Route>
-        <Route path="/deroulement-stage-etudiants" exact>
-          <DeroulementStageEtudiants />
-        </Route>
-        <Route path="/profils-etudiants" exact>
-          <ProfilsEtudiants />
-        </Route>
-        <Route path="/ajouter-stage" exact>
-          <AjouterStage />
-        </Route>
-        <Route path="/ajouter-etudiant" exact>
-          <AjouterEtudiant />
-        </Route>
-        <Route path="/liste-stages-disponibles" exact>
-          <ListeStagesDisponibles />
-        </Route>
-        <Route path="/liste-etudiants" exact>
-          <ListeEtudiants />
-        </Route>
-        <Route path="/faq" exact>
-          <FAQ />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
+    switch (userType) {
+      case "etudiant":
+        routes = (
+          <Switch>
+            <Route path="/" exact>
+              <Accueil />
+            </Route>
+            <Route path="/deroulement-stage-employeurs" exact>
+              <DeroulementStageEmployeurs />
+            </Route>
+            <Route path="/deroulement-stage-etudiants" exact>
+              <DeroulementStageEtudiants />
+            </Route>
+            <Route path="/profils-etudiants" exact>
+              <ProfilsEtudiants />
+            </Route>
+            <Route path="/liste-stages-disponibles" exact>
+              <ListeStagesDisponibles />
+            </Route>
+            <Route path="/page-personnelle-etudiant" exact>
+              <Accueil /> {/* TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS TODO CHECK THIS */}
+            </Route>
+            <Route path="/faq" exact>
+              <FAQ />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        );
+        break;
+      case "coordonateur":
+        routes = (
+          <Switch>
+            <Route path="/" exact>
+              <Accueil />
+            </Route>
+            <Route path="/deroulement-stage-employeurs" exact>
+              <DeroulementStageEmployeurs />
+            </Route>
+            <Route path="/deroulement-stage-etudiants" exact>
+              <DeroulementStageEtudiants />
+            </Route>
+            <Route path="/profils-etudiants" exact>
+              <ProfilsEtudiants />
+            </Route>
+            <Route path="/ajouter-etudiant" exact>
+              <AjouterEtudiant />
+            </Route>
+            <Route path="/liste-stages-disponibles" exact>
+              <ListeStagesDisponibles />
+            </Route>
+            <Route path="/liste-etudiants" exact>
+              <ListeEtudiants />
+            </Route>
+            <Route path="/faq" exact>
+              <FAQ />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        );
+        break;
+      case "employeur":
+        routes = (
+          <Switch>
+            <Route path="/" exact>
+              <Accueil />
+            </Route>
+            <Route path="/deroulement-stage-employeurs" exact>
+              <DeroulementStageEmployeurs />
+            </Route>
+            <Route path="/deroulement-stage-etudiants" exact>
+              <DeroulementStageEtudiants />
+            </Route>
+            <Route path="/profils-etudiants" exact>
+              <ProfilsEtudiants />
+            </Route>
+            <Route path="/ajouter-stage" exact>
+              <AjouterStage />
+            </Route>
+            <Route path="/liste-stages-disponibles" exact>
+              <ListeStagesDisponibles />
+            </Route>
+            <Route path="/faq" exact>
+              <FAQ />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        );
+        break;
+      default:
+        console.error("Le type de compte de l'utilisateur est manquant.");
+    }
   } else {
     routes = (
       <Switch>
@@ -96,6 +157,7 @@ function App() {
       value={{
         isLoggedIn: isLoggedIn,
         userId: userId,
+        userType: userType,
         login: login,
         logout: logout,
       }}
