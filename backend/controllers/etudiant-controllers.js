@@ -35,7 +35,6 @@ const ajouterEtudiant = async (requete, reponse, next) => {
     if (!profilSortie || (profilSortie.toLowerCase() != "développement d'applications" && profilSortie.toLowerCase() != "réseaux et sécurité")) {
         return next(new HttpErreur("Vous devez spécifier un profil de sortie valide pour l'étudiant", 422));
     } else {
-        profilSortie = profilSortie.toLowerCase();
         profilSortie = profilSortie.substring(0, 1).toUpperCase() + profilSortie.substring(1).toLowerCase();
     }
 
