@@ -53,6 +53,7 @@ const AjouterEtudiant = (props) => {
         { "Content-Type": "application/json" }
       );
       console.log(responseData);
+      alert("L'étudiant a été ajouté avec succès!")
     } catch (err) {
       console.error(err);
     }
