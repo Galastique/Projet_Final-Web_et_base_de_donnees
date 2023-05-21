@@ -42,7 +42,7 @@ const AjouterEtudiant = (props) => {
     event.preventDefault()
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/etudiants",
+        process.env.REACT_APP_BACKEND_URL + "etudiants",
         "POST",
         JSON.stringify({
           numeroDA: formState.inputs.number.value,

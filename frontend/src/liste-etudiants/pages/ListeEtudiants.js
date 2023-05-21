@@ -15,7 +15,7 @@ const ListeEtudiants = (props) => {
 		const fetchEtudiants = async () => {
 			try {
 				const responseData = await sendRequest(
-					"http://localhost:5000/etudiants"
+					process.env.REACT_APP_BACKEND_URL + "etudiants"
 				);
 				setListeEtudiants(responseData.etudiants);
 			} catch (err) {}

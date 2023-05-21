@@ -76,7 +76,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/auth/connexion",
+          process.env.REACT_APP_BACKEND_URL + "auth/connexion",
           "POST",
           JSON.stringify({
             courriel: formState.inputs.email.value,
@@ -92,7 +92,7 @@ const Auth = () => {
     } else {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/auth/inscription",
+          process.env.REACT_APP_BACKEND_URL + "auth/inscription",
           "POST",
           JSON.stringify({
             nom: formState.inputs.name.value,

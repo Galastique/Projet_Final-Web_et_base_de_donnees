@@ -64,7 +64,7 @@ const AjouterStage = (props) => {
       event.preventDefault()
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/stages",
+          process.env.REACT_APP_BACKEND_URL + "stages",
           "POST",
           JSON.stringify({
             nomPersonneContact: formState.inputs.nameContact.value,
