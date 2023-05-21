@@ -17,7 +17,7 @@ const ListeEtudiants = (props) => {
 				const responseData = await sendRequest(
 					process.env.REACT_APP_BACKEND_URL + "etudiants"
 				);
-				setListeEtudiants(responseData.etudiants);
+				setListeEtudiants(responseData.etudiants.populate("stageAssocie"));
 			} catch (err) {}
 		};
 		fetchEtudiants();

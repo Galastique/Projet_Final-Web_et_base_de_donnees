@@ -18,12 +18,13 @@ const Etudiant = (props) => {
 	return (
         <li className="main_content-liste_etudiants-etudiant">
             <Card className="etudiant">
-                <h4>Étudiant</h4>
+                <h4>Étudiant : {props.etudiant.nomComplet}</h4>
                 <ul className="main_content-content-normal_list">
                     <li>Numéro de DA: {props.etudiant.numeroDA}</li>
                     <li>Nom complet: {props.etudiant.nomComplet}</li>
                     <li>Courriel de contact: {props.etudiant.courrielContact}</li>
                     <li>Profil de sortie: {props.etudiant.profilSortie}</li>
+                    <li>Stage de l'étudiant: {props.etudiant.stageAssocie}</li>
                 </ul>
             </Card>
         </li>
