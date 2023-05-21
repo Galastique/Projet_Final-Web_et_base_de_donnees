@@ -17,7 +17,7 @@ const getEtudiants = async (requete, reponse, next) => {
 };
 
 const ajouterEtudiant = async (requete, reponse, next) => {
-    const { numeroDA, nomComplet, courrielContact, profilSortie } = requete.body;
+    let { numeroDA, nomComplet, courrielContact, profilSortie } = requete.body;
     let etudiantExiste;
 
     if (!numeroDA) {
@@ -34,6 +34,8 @@ const ajouterEtudiant = async (requete, reponse, next) => {
 
     if (!profilSortie || (profilSortie.toLowerCase() != "développement d'applications" && profilSortie.toLowerCase() != "réseaux et sécurité")) {
         return next(new HttpErreur("Vous devez spécifier un profil de sortie valide pour l'étudiant", 422));
+    } else {
+        profilSortie = profilSortie.toLowerCase();
     }
 
     try {
@@ -46,6 +48,7 @@ const ajouterEtudiant = async (requete, reponse, next) => {
         return next(new HttpErreur("Étudiant existe déjà!", 422))
     }
 
+    
     let nouvelEtudiant = new Etudiant({ numeroDA, nomComplet, courrielContact, profilSortie });
     try {
         await nouvelEtudiant.save();

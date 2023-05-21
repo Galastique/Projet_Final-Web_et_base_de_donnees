@@ -42,13 +42,13 @@ const AjouterEtudiant = (props) => {
     event.preventDefault()
     try {
       const responseData = await sendRequest(
-        //"http://localhost:3000/??", TODO
-        //"POST",
+        "http://localhost:5000/etudiants",
+        "POST",
         JSON.stringify({
           numeroDA: formState.inputs.number.value,
-          nom: formState.inputs.name.value,
-          courriel: formState.inputs.email.value,
-          profil: formState.inputs.profile.value,
+          nomComplet: formState.inputs.name.value,
+          courrielContact: formState.inputs.email.value,
+          profilSortie: formState.inputs.profile.value,
         }),
         { "Content-Type": "application/json" }
       );
@@ -99,12 +99,14 @@ const AjouterEtudiant = (props) => {
                 onInput={inputHandler}
               />
               <Input
-                element="input"
+                element="combo"
                 id="profile"
                 type="text"
                 label="Profil de sortie"
                 validators={[VALIDATOR_REQUIRE()]}
-                errorText="Entrez un profil de sortie."
+                placeholder="Sélectionnez un profil de sortie"
+                options={["Développement d'applications", "Réseaux et sécurité"]}
+                errorText="Sélectionnez un profil de sortie."
                 onInput={inputHandler}
               />
               <Button type="submit" disabled={!formState.isValid}>
