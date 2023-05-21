@@ -15,20 +15,12 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/deroulement-stage-employeurs"
-          exact
-          className="nav_links-button"
-        >
+        <NavLink to="/deroulement-stage-employeurs" exact className="nav_links-button">
           Déroulement Stage Employeurs
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/deroulement-stage-etudiants"
-          exact
-          className="nav_links-button"
-        >
+        <NavLink to="/deroulement-stage-etudiants" exact className="nav_links-button">
           Déroulement Stage Étudiants
         </NavLink>
       </li>
@@ -53,10 +45,7 @@ const NavLinks = (props) => {
       )}
       {auth.isLoggedIn && (
         <li>
-          <NavLink
-            to={`/liste-stages-disponibles`}
-            className="nav_links-button"
-          >
+          <NavLink to={`/liste-stages-disponibles`} className="nav_links-button">
             Liste Stages Disponibles
           </NavLink>
         </li>
