@@ -80,7 +80,7 @@ const AjouterStage = (props) => {
           { "Content-Type": "application/json" }
         );
         console.log(responseData);
-        alert("Le stage a été ajouté avec succès!")
+        alert("Le stage a été ajouté avec succès!");
       } catch (err) {
         console.error(err);
       }

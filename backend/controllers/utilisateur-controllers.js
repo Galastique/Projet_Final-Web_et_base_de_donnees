@@ -11,13 +11,11 @@ const inscription = async (requete, reponse, next) => {
     try {
         utilisateurExiste = await Utilisateur.findOne({ courriel: courriel });
     } catch {
-        return next(new HttpErreur("Erreur lors de la vérification de l'existence de l'utilisateur", 500))
+        return next(new HttpErreur("Erreur lors de la vérification de l'existence de l'utilisateur", 500));
     }
 
     if (utilisateurExiste) {
-        return next(
-            new HttpErreur("Cet utilisateur existe déjà, veuillez vous connecter", 422)
-        );
+        return next(new HttpErreur("Cet utilisateur existe déjà, veuillez vous connecter", 422));
     }
 
     let nouvelUtilisateur = new Utilisateur({
