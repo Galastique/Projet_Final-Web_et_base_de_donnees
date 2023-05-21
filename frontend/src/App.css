@@ -71,3 +71,7 @@ main {
 .main_content-content-normal_list li ul {
   list-style-type: "– ";
 }
+
+.main_content-content-normal_list li ul li ul {
+  list-style-type: square;
+}

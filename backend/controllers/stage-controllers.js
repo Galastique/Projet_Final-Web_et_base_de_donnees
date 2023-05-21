@@ -8,7 +8,7 @@ const getStages = async (request, response, next) => {
     let stages;
 
     try {
-        stages = await Stage.find({});
+        stages = await Stage.find({}).populate("etudiantsInscrits");
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération des stages", 500));
     }

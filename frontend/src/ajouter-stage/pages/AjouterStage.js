@@ -172,7 +172,6 @@ const AjouterStage = (props) => {
               />
                             
               <Input
-                element="input"
                 id="description"
                 type="text"
                 label="Description du stage"
