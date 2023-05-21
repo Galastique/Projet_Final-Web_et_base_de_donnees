@@ -1,0 +1,7 @@
+{
+    "env": {
+        "DB_USER": "galastique",
+        "DB_PASSWORD": "PLbi0anXKy6Apmxf",
+        "DB_NAME": "stagemontmorency"
+    }
+}

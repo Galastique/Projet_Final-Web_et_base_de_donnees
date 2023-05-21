@@ -22,7 +22,7 @@ const accederStage = async (request, response, next) => {
     let stage;
     try {
         stage = await Stage.findById(stageId);
-    } catch (err) {
+    } catch {
         return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
     }
 
@@ -74,7 +74,7 @@ const ajouterStage = async (request, response, next) => {
 
         await nouveauStage.save();
         await session.commitTransaction();
-    } catch (err) {
+    } catch {
         return next(new HttpErreur("La création du stage a échouée", 500));
     }
 

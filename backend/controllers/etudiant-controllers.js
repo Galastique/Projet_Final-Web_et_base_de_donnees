@@ -167,8 +167,7 @@ const supprimerEtudiant = async (requete, reponse, next) => {
         session.startTransaction();
         await etudiant.deleteOne();
         await session.commitTransaction();
-    } catch (err) {
-        console.log(err);
+    } catch {
         return next(new HttpErreur("La suppression de l'étudiant a échouée", 500));
     }
 
