@@ -61,28 +61,29 @@ const AjouterStage = (props) => {
     );
 
     const ajouter = async (event) => {
-    event.preventDefault()
-    try {
-      const responseData = await sendRequest(
-        //"http://localhost:3000/??", TODO
-        //"POST",
-        JSON.stringify({
-          nomPersonneContact: formState.inputs.nameContact.value,
-          courrielPersonneContact: formState.inputs.email.value,
-          telephonePersonneContact: formState.inputs.telephone.value,
-          nomEntreprise: formState.inputs.enterprise.value,
-          adresseEntreprise: formState.inputs.address.value,
-          typeStage: formState.inputs.stage.value,
-          nbrPostesDisponibles: formState.inputs.spots.value,
-          descriptionStage: formState.inputs.description.value,
-          remuneration: formState.inputs.remuneration.value,
-        }),
-        { "Content-Type": "application/json" }
-      );
-      console.log(responseData);
-    } catch (err) {
-      console.error(err);
-    }
+      event.preventDefault()
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5000/stages",
+          "POST",
+          JSON.stringify({
+            nomPersonneContact: formState.inputs.nameContact.value,
+            courrielPersonneContact: formState.inputs.email.value,
+            telephonePersonneContact: formState.inputs.telephone.value,
+            nomEntreprise: formState.inputs.enterprise.value,
+            adresseEntreprise: formState.inputs.address.value,
+            typeStage: formState.inputs.stage.value,
+            nbrPostesDisponibles: formState.inputs.spots.value,
+            descriptionStage: formState.inputs.description.value,
+            remuneration: formState.inputs.remuneration.value,
+          }),
+          { "Content-Type": "application/json" }
+        );
+        console.log(responseData);
+        alert("Le stage a été ajouté avec succès!")
+      } catch (err) {
+        console.error(err);
+      }
     }
 
   return (
@@ -148,12 +149,14 @@ const AjouterStage = (props) => {
               />
 
               <Input
-                element="input"
+                element="combo"
                 id="stage"
                 type="text"
                 label="Type de stage"
                 validators={[VALIDATOR_REQUIRE()]}
-                errorText="Entrez le type de stage."
+                placeholder="Sélectionnez un type de stage"
+                options={["Développement d'applications", "Réseaux et sécurité"]}
+                errorText="Sélectionnez le type de stage."
                 onInput={inputHandler}
               />
 

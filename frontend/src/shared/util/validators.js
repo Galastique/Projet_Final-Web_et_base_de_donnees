@@ -59,6 +59,7 @@ export const validate = (value, validators) => {
       isValid = isValid && /^[0-9]+$/.test(value);
     }
     if (validator.type === VALIDATOR_TYPE_MONETARY) {
+      // eslint-disable-next-line no-useless-escape
       isValid = isValid && /^[0-9]+([,\.][0-9]{1,2})?$/.test(value);
     }
   }

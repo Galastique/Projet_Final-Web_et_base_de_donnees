@@ -34,9 +34,8 @@ const accederStage = async (request, response, next) => {
 };
 
 const ajouterStage = async (request, response, next) => {
-    const { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration } = request.body;
-    const nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration });
-
+    let { nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration } = request.body;
+    
     if (!nomPersonneContact || !courrielPersonneContact || !telephonePersonneContact) {
         return next(new HttpErreur("Vous devez spécifier les informations de contact pour le stage", 422));
     }
@@ -49,8 +48,10 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier les informations de l'entreprise", 422));
     }
 
-    if (!typeStage || (typeStage.toLowerCase() != "réseaux et sécurité" && typeStage.toLowerCase() != "développement d'application")) {
+    if (!typeStage || (typeStage.toLowerCase() != "réseaux et sécurité" && typeStage.toLowerCase() != "développement d'applications")) {
         return next(new HttpErreur("Vous devez spécifier un type de stage valide", 422));
+    } else {
+        typeStage = typeStage.toLowerCase();
     }
 
     if (!nbrPostesDisponibles) {
@@ -61,10 +62,12 @@ const ajouterStage = async (request, response, next) => {
         return next(new HttpErreur("Vous devez spécifier une description pour le stage", 422));
     }
 
-    if (!renumeration || isNaN(renumeration)) {
+    if (!remuneration || isNaN(remuneration)) {
         return next(new HttpErreur("Vous devez spécifier une rénumération valide pour le stage. (0 = non-rémunéré, 15.25 à 50 = taux horaire, plus de 50 = paiement fixe)", 422));
     }
 
+
+    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, renumeration: remuneration });
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
