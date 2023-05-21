@@ -5,15 +5,15 @@ const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
 
 const getStages = async (request, response, next) => {
-    let stage;
+    let stages;
 
     try {
-        stage = await Stage.find({});
+        stages = await Stage.find({});
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération des stages", 500));
     }
 
-    response.json({stages: stage.map((stage) => stage.toObject({getters: true}))});
+    response.json({stages: stages.map((stage) => stage.toObject({getters: true}))});
 };
 
 const accederStage = async (request, response, next) => {

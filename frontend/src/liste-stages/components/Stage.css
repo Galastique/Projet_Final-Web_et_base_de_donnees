@@ -1,0 +1,19 @@
+.main_content-liste_stages-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.card.stage.vide {
+    font-size: 1.25em;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 10em;
+}

@@ -36,4 +36,6 @@
 
 .nav_links li:last-of-type .nav_links-button {
   padding-right: calc(1em + 10px);
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
