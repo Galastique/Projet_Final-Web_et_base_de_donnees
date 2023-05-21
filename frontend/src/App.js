@@ -131,7 +131,7 @@ function App() {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Accueil />
+          <ListeEtudiants />
         </Route>
         <Route path="/deroulement-stage-employeurs" exact>
           <DeroulementStageEmployeurs />

@@ -24,7 +24,9 @@ const Etudiant = (props) => {
                     <li>Nom complet: {props.etudiant.nomComplet}</li>
                     <li>Courriel de contact: {props.etudiant.courrielContact}</li>
                     <li>Profil de sortie: {props.etudiant.profilSortie}</li>
-                    <li>Stage de l'étudiant: {props.etudiant.stageAssocie}</li>
+                    {props.etudiant.stageAssocie ?(
+                        <li>Stage de l'étudiant: {props.etudiant.stageAssocie.nomEntreprise}</li>
+                    ) : null}
                 </ul>
             </Card>
         </li>

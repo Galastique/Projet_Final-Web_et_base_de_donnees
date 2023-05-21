@@ -8,7 +8,7 @@ const getEtudiants = async (requete, reponse, next) => {
     let etudiants;
 
     try {
-        etudiants = await Etudiant.find({});
+        etudiants = await Etudiant.find({}).populate("stageAssocie");
     } catch {
         return next(new HttpErreur("Erreur accès étudiant", 500));
     }
