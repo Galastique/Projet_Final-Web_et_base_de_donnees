@@ -5,6 +5,7 @@ export const useHttpClient = () => {
 
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
+      
       try {
         const response = await fetch(url, {
           method,

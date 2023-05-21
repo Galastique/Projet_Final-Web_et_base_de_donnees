@@ -12,6 +12,9 @@
 }
 
 .nav_links-button {
+  background: transparent;
+  border: none;
+
   padding: 0 1em;
 
   display: flex;
@@ -29,8 +32,4 @@
 .nav_links-button:active,
 .nav_links-button.active {
   background-color: rgba(0, 0, 0, 0.1);
-}
-
-.nav_links li:last-of-type .nav_links-button {
-  width: 83.5%;
 }

@@ -11,6 +11,14 @@ const HttpErreur = require("./models/http-erreur");
 const app = express();
 app.use(bodyParser.json());
 
+// XXX To delete before publishing the website
+app.use((requete, reponse, next) => {
+  reponse.setHeader("Access-Control-Allow-Origin", "*");
+  reponse.setHeader("Access-Control-Allow-Headers", "*");
+  reponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  next();
+})
+
 app.use("/stages", stageRoutes);
 app.use("/etudiants", etudiantRoutes);
 app.use("/auth", utilisateurRoutes);

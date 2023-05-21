@@ -3,7 +3,7 @@ import React from "react";
 import Modal from "./Modal.js";
 import Button from "../FormElements/Button";
 
-const ErrorModal = (props) => {
+const ErrorModal = props => {
   return (
     <Modal
       onCancel={props.onClear}
