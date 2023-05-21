@@ -12,11 +12,11 @@ const DeroulementStageEtudiants = (props) => {
           maintenant):
         </h4>
         <p>Au plus tard le mardi 18 septembre à 12h00:</p>
-        <ul>
+        <ul className="main_content-content-normal_list">
           <li>
             Produire un CV que vous devez remettre au coordonnateur des stages
             (Sylvain Labranche):
-            <ul>
+            <ul className="main_content-content-normal_list">
               <li>
                 En format "Word" ou en format PDF que vous allez remettre sur
                 Moodle pour le cours "2018-2019: Stages de fin d'études en
@@ -34,7 +34,7 @@ const DeroulementStageEtudiants = (props) => {
             Pour chaque employeur que vous contactez vous devez inscrire ses
             coordonnées sur le formulaire{" "}
             <a href="../documents/contact_employeurs.pdf">suivant</a>
-            <ul>
+            <ul className="main_content-content-normal_list">
               <li>
                 Fichier en format{" "}
                 <a href="../documents/contact_employeurs.docx">Word.</a>
@@ -48,7 +48,7 @@ const DeroulementStageEtudiants = (props) => {
               &laquo;rencontre&nbsp;employeur&raquo;
             </a>
             .
-            <ul>
+            <ul className="main_content-content-normal_list">
               <li>
                 Fichier en format{" "}
                 <a href="../documents/rencontre_employeur.docx">Word.</a>
@@ -65,11 +65,11 @@ const DeroulementStageEtudiants = (props) => {
           </li>
         </ul>
         <p>Au plus tard le vendredi 2 novembre à 12h00:</p>
-        <ul>
+        <ul className="main_content-content-normal_list">
           <li>
             Remettre vos formulaires &laquo;contact&nbsp;employeurs&raquo; et
             &laquo;rencontre&nbsp;employeur&raquo; remplis:
-            <ul>
+            <ul className="main_content-content-normal_list">
               <li>
                 Dans colnet (dans un fichier .ZIP, comme indiqué ci-haut,
                 n'oubliez pas d'inclure tous les formulaires
@@ -82,7 +82,7 @@ const DeroulementStageEtudiants = (props) => {
         <br />
         <h4>Sites Web pour vous aider:</h4>
         <p>À l'hiver:</p>
-        <ul>
+        <ul className="main_content-content-normal_list">
           <li>
             Pour comprendre le fonctionnement général des projets de fin
             d'études (stages) je vous invite à consulter les différentes
@@ -100,7 +100,7 @@ const DeroulementStageEtudiants = (props) => {
           Plus de détails pour les{" "}
           <a href="rapports_techniques.php">rapports techniques</a>
         </h4>
-        <ul>
+        <ul className="main_content-content-normal_list">
           <li>
             TRÈS IMPORTANT: pour toute communication par courriel avec le
             coordonnateur vous devez inscrire dans le sujet du message:
@@ -150,7 +150,7 @@ const DeroulementStageEtudiants = (props) => {
           premier lundi de janvier de l'année du stage)
         </p>
         <p>Il y aura deux rencontres obligatoires en ligne</p>
-        <ul>
+        <ul className="main_content-content-normal_list">
           <li>Vendredi 12h00-13h00 en janvier avant le début des stages</li>
           <li>
             Vendredi 12h00-13h00 vers le milieu du stage (la date sera

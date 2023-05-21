@@ -7,7 +7,7 @@ const ProfilsEtudiants = (props) => {
         <hr/>
         <div className="main_content-content">
             <h4 className="main_content-subtitle">Nos étudiants en Gestion de réseaux et sécurité ont suivi des cours leur permettant de:</h4>
-            <ul>
+            <ul className="main_content-content-normal_list">
                 <li>gérer des réseaux informatiques et offrir du soutien aux personnes qui utilisent des ordinateurs et des réseaux, c'est-à-dire:</li>
                 <li>monter un serveur</li>
                 <li>planifier et implanter un réseau</li>
@@ -32,7 +32,7 @@ const ProfilsEtudiants = (props) => {
             </ul><br/>
 
             <h4 className="main_content-subtitle">Nos étudiant en Développement d'applications informatiques ont suivi des cours leur permettant de:</h4>
-            <ul>
+            <ul className="main_content-content-normal_list">
                 <li>participer à l'analyse des systèmes à implanter</li>
                 <li>détecter les problèmes, en dégager la structure et trouver les solutions logiques</li>
                 <li>effectuer les jeux d'essai et la mise au point des programmes et des systèmes</li>

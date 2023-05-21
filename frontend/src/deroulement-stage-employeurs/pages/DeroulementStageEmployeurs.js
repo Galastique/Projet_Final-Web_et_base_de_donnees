@@ -8,10 +8,10 @@ const DeroulementStageEmployeurs = (props) => {
         <div className="main_content-content">
           <p>Formulaire d'inscription de milieu de stage</p>
           <p>Stages réguliers ayant lieu à la session hiver</p>
-          <ul>
+          <ul className="main_content-content-normal_list">
             <li>
             Les stages sont du 21 janvier au 3 mai 2019
-            <ul>
+            <ul className="main_content-content-normal_list">
               <li>
               (il est toutefois possible après entente avec le coordonnateur de débuter le stage un peu plus tôt)
               </li>
