@@ -61,7 +61,7 @@ const Stage = (props) => {
     }
 
     async function stageAppartientAEmployeur() {
-
+        return true;
     }
 
 	return (
