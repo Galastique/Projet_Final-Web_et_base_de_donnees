@@ -41,7 +41,7 @@ const ListeStages = (props) => {
 						return <Stage stage={stage} />
 					});
 				} else {
-					<Stage listeVide={true} />
+					element = <Stage listeVide={true} />
 				}
 			} else if (boolDev) {
 				if (listeStagesDev.length !== 0) {
@@ -49,7 +49,7 @@ const ListeStages = (props) => {
 						return <Stage stage={stage} />
 					});
 				} else {
-					<Stage listeVide={true} />
+					element = <Stage listeVide={true} />
 				}
 			} else if (boolRes) {
 				if (listeStagesRes.length !== 0) {
@@ -57,7 +57,7 @@ const ListeStages = (props) => {
 						return <Stage stage={stage} />
 					});
 				} else {
-					<Stage listeVide={true} />
+					element = <Stage listeVide={true} />
 				}
 			} else {
 				element = listeStages.map(stage => {
@@ -65,10 +65,10 @@ const ListeStages = (props) => {
 				})
 			}
 		} else {
-			<Stage listeVide={true} />
+			element = <Stage listeVide={true} />
 		}
 	} else {
-		<Stage listeVide={true} />
+		element = <Stage listeVide={true} />
 	}
 
 	function toggleBoolDev(event) {
