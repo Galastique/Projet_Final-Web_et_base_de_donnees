@@ -15,6 +15,7 @@ import Footer from "./shared/components/Footer";
 import Auth from "./shared/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import "./App.css";
+import ListeStages from "./liste-stages/pages/ListeStages";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -131,7 +132,7 @@ function App() {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Accueil />
+          <ListeStages />
         </Route>
         <Route path="/deroulement-stage-employeurs" exact>
           <DeroulementStageEmployeurs />

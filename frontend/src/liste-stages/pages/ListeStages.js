@@ -6,6 +6,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import Stage from "../components/Stage";
 
 import "./ListeStages.css";
+import Button from "../../shared/components/FormElements/Button";
 
 const ListeStages = (props) => {
   const [listeStages, setListeStages] = useState();
@@ -23,15 +24,30 @@ const ListeStages = (props) => {
 		fetchStages();
 	}, [sendRequest]);
 
+	const [boolDev, setBoolDev] = useState(false);
+	const [boolRes, setBoolRes] = useState(false);
+
 	let element = <ul className="main_content-liste_stages">
 		{
 			listeStages ? (
 				listeStages.length === 0 ? (
 					<Stage listeVide={true} />
 				) : (
-					listeStages.map(stage => {
-						return <Stage stage={stage} />
-					})
+					boolDev ? (
+						listeStages.filter(stage => stage.typeStage.includes("applications")).map(stage => {
+							return <Stage stage={stage} />
+						})
+					) : (
+						boolRes ? (
+							listeStages.stagesRes.filter(stage => stage.typeStage.includes("sécurité")).map(stage => {
+								return <Stage stage={stage} />
+							})
+						) : (
+							listeStages.map(stage => {
+								return <Stage stage={stage} />
+							})
+						)
+					)
 				)
 			) : (
 				<Stage listeVide={true} />
@@ -47,6 +63,12 @@ const ListeStages = (props) => {
 			</h4>
 			<hr />
 			<div className="main_content-content">
+				<Button onClick={function () {setBoolDev(true); setBoolRes(false);}}>
+						Développement
+				</Button>
+				<Button onClick={function () {setBoolDev(false); setBoolRes(true)}}>
+						Réseaux
+				</Button>
 				<React.Fragment>
 					<ErrorModal error={error} onClear={clearError} />
 					{listeStages && (
