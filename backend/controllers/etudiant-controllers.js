@@ -1,6 +1,8 @@
 const HttpErreur = require("../models/http-erreur");
 const { mongoose } = require("mongoose");
 
+const controllerModification = require("./modification-controllers");
+
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
 
@@ -57,6 +59,7 @@ const ajouterEtudiant = async (requete, reponse, next) => {
     }
 
     reponse.status(201).json({ etudiant: nouvelEtudiant.toObject({ getter: true }) });
+    controllerModification.saveModification("controllerEtudiant.ajouterEtudiant");
 }
 
 const accederEtudiant = async (requete, reponse, next) => {
@@ -116,6 +119,7 @@ const modifierEtudiant = async (requete, reponse, next) => {
     }
 
     reponse.status(200).json({ cours: etudiant.toObject({ getters: true }) });
+    controllerModification.saveModification("controllerEtudiant.modifierEtudiant");
 }
 
 const supprimerEtudiant = async (requete, reponse, next) => {
@@ -179,6 +183,7 @@ const supprimerEtudiant = async (requete, reponse, next) => {
     }
 
     reponse.status(200).json({ message: "L'étudiant a été supprimé avec succès" });
+    controllerModification.saveModification("controllerEtudiant.supprimerEtudiant");
 }
 
 const inscrireEtudiant = async (requete, reponse, next) => {
@@ -248,6 +253,7 @@ const inscrireEtudiant = async (requete, reponse, next) => {
     }
 
     reponse.status(200).json({ etudiant: etudiant.toObject({ getters: true }) });
+    controllerModification.saveModification("controllerEtudiant.inscrireEtudiant");
 }
 
 exports.getEtudiants = getEtudiants;

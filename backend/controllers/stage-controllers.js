@@ -1,6 +1,8 @@
 const HttpErreur = require("../models/http-erreur");
 const { mongoose } = require("mongoose");
 
+const controllerModification = require("./modification-controllers");
+
 const Etudiant = require("../models/etudiant");
 const Stage = require("../models/stage");
 
@@ -77,7 +79,7 @@ const ajouterStage = async (request, response, next) => {
     }
 
 
-    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration: remuneration });
+    let nouveauStage = new Stage({ nomPersonneContact, courrielPersonneContact, telephonePersonneContact, nomEntreprise, adresseEntreprise, typeStage, nbrPostesDisponibles, descriptionStage, remuneration });
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -89,6 +91,7 @@ const ajouterStage = async (request, response, next) => {
     }
 
     response.status(201).json({ stage: nouveauStage });
+    controllerModification.saveModification("controllerStage.ajouterStage");
 };
 
 const modifierStage = async (request, response, next) => {
@@ -130,6 +133,7 @@ const modifierStage = async (request, response, next) => {
     }
 
     response.status(200).json({ stage: stage.toObject({ getters: true }) });
+    controllerModification.saveModification("controllerStage.modifierStage");
 };
 
 const supprimerStage = async (request, response, next) => {
@@ -168,6 +172,7 @@ const supprimerStage = async (request, response, next) => {
     }
 
     response.status(200).json({ message: "Le stage a été supprimé" });
+    controllerModification.saveModification("controllerStage.supprimerStage");
 };
 
 const inscrireEtudiant = async (requete, reponse, next) => {
@@ -245,6 +250,7 @@ const inscrireEtudiant = async (requete, reponse, next) => {
     }
 
     reponse.status(200).json({ etudiant: etudiant.toObject({ getters: true }) });
+    controllerModification.saveModification("controllerStage.inscrireEtudiant");
 }
 
 exports.getStages = getStages;

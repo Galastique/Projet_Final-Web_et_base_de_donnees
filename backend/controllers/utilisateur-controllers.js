@@ -1,6 +1,8 @@
 const HttpErreur = require("../models/http-erreur");
 const { mongoose } = require("mongoose");
 
+const controllerModification = require("./modification-controllers");
+
 const Utilisateur = require("../models/utilisateur");
 
 const inscription = async (requete, reponse, next) => {
@@ -29,10 +31,8 @@ const inscription = async (requete, reponse, next) => {
         return next(new HttpErreur("Erreur lors de l'ajout de l'utilisateur", 422));
     }
 
-    reponse.json({
-        message: "Inscription réussie!",
-        utilisateur: nouvelUtilisateur.toObject({ getters: true })
-    });
+    reponse.json({ message: "Inscription réussie!", utilisateur: nouvelUtilisateur.toObject({ getters: true }) });
+    controllerModification.saveModification("controllerUtilisateur.inscription");
 };
 
 const connexion = async (requete, reponse, next) => {
@@ -50,10 +50,7 @@ const connexion = async (requete, reponse, next) => {
         return next(new HttpErreur("Le courriel ou le mot de passe est incorrect", 401));
     }
 
-    reponse.json({
-        message: "Connexion réussie!",
-        utilisateur: utilisateurExiste.toObject({ getters: true })
-    });
+    reponse.json({ message: "Connexion réussie!", utilisateur: utilisateurExiste.toObject({ getters: true }) });
 };
 
 exports.inscription = inscription;
