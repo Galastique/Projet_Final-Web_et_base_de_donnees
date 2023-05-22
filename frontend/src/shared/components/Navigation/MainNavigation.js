@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import "./MainNavigation.css";
-
 import Image from "../UIElements/Image";
 import NavLinks from "./NavLinks";
 
