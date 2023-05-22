@@ -165,30 +165,17 @@ const supprimerEtudiant = async (requete, reponse, next) => {
         const session = await mongoose.startSession();
         session.startTransaction();
 
-        //Removes student from internship requests
-        for (let stage of etudiant.demandesStage) {
-            try {
-                stage = await Stage.findOne({ id: stage });
-            } catch {
-                return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
-            }
-
-            try {
-                for (let e of stage.demandesStage) {
-                    if (e == etudiant.id) {
-                        stage.demandesStage.splice(stage.demandesStage.indexOf(e), 1);
-                        await stage.save();
-                    }
-                }
-                await stage.save();
-            } catch {
-                return next(new HttpErreur("Erreur lors de la mise à jour du stage", 500));
-            }
+        //Removes internship requests from internships
+        let tousStages = await Stage.find({});
+        for (let stage of tousStages) {
+            stage.demandesStage.splice(stage.demandesStage.indexOf(etudiant.id), 1);
+            await stage.save();
         }
-        
+
         await etudiant.deleteOne();
         await session.commitTransaction();
-    } catch {
+    } catch(err) {
+        console.log(err);
         return next(new HttpErreur("La suppression de l'étudiant a échouée", 500));
     }
 
