@@ -7,3 +7,14 @@
 
     padding: 0;
 }
+
+.main_content-boutons {
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: center;
+    padding: 0;
+}

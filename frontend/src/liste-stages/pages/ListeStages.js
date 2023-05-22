@@ -63,12 +63,16 @@ const ListeStages = (props) => {
 			</h4>
 			<hr />
 			<div className="main_content-content">
-				<Button onClick={function () {setBoolDev(true); setBoolRes(false);}}>
-						Développement
-				</Button>
-				<Button onClick={function () {setBoolDev(false); setBoolRes(true)}}>
-						Réseaux
-				</Button>
+				<div className="main_content-liste_stages">
+					<div className="main_content-boutons">
+						<Button onClick={function () {setBoolDev(true); setBoolRes(false);}}>
+								Développement
+						</Button>
+						<Button onClick={function () {setBoolDev(false); setBoolRes(true)}}>
+								Réseaux
+						</Button>
+					</div>
+				</div>
 				<React.Fragment>
 					<ErrorModal error={error} onClear={clearError} />
 					{listeStages && (
