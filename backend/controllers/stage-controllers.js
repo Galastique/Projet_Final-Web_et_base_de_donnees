@@ -184,7 +184,7 @@ const inscrireEtudiant = async (requete, reponse, next) => {
 
     let stage;
     try {
-        stage = await Stage.findOne({ id: stageId });
+        stage = await Stage.findById(stageId);
     } catch {
         return next(new HttpErreur("Erreur lors de la récupération du stage", 500));
     }
@@ -228,12 +228,18 @@ const inscrireEtudiant = async (requete, reponse, next) => {
     }
 
     try {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
         etudiant.stageAssocie = stageId;
-        stage.etudiantsInscrits.push(etudiant.id);
         etudiant.demandesStage.splice(etudiant.demandesStage.indexOf(stageId), 1);
-        stage.demandesStage.splice(stage.demandesStage.indexOf(etudiant._id), 1);
         await etudiant.save();
+        
+        stage.etudiantsInscrits.push(etudiantId);
+        stage.demandesStage.splice(stage.demandesStage.indexOf(etudiantId), 1);
         await stage.save();
+
+        await session.commitTransaction();
     } catch {
         return next(new HttpErreur("Erreur lors de la mise à jour de l'étudiant", 500));
     }
