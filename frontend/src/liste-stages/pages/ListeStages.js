@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import Button from "../../shared/components/FormElements/Button";
 
 import Stage from "../components/Stage";
 
 import "./ListeStages.css";
-import Button from "../../shared/components/FormElements/Button";
+import Card from "../../shared/components/UIElements/Card";
 
 const ListeStages = (props) => {
   const [listeStages, setListeStages] = useState();
@@ -27,33 +28,68 @@ const ListeStages = (props) => {
 	const [boolDev, setBoolDev] = useState(false);
 	const [boolRes, setBoolRes] = useState(false);
 
-	let element = <ul className="main_content-liste_stages">
-		{
-			listeStages ? (
-				listeStages.length === 0 ? (
+	let element;
+	if (listeStages) {
+		if (listeStages.length !== 0) {
+			let listeStagesDev = listeStages.filter(stage => stage.typeStage.includes("applications"));
+			let listeStagesRes = listeStages.filter(stage => stage.typeStage.includes("sécurité"));
+			let listeStagesDevRes = listeStages.filter(stage => stage.typeStage.includes("applications")).filter(stage => stage.typeStage.includes("sécurité"));
+			
+			if (boolDev && boolRes) {
+				if (listeStagesDevRes.length !== 0) {
+					element = listeStagesDevRes.map(stage => {
+						return <Stage stage={stage} />
+					});
+				} else {
 					<Stage listeVide={true} />
-				) : (
-					boolDev ? (
-						listeStages.filter(stage => stage.typeStage.includes("applications")).map(stage => {
-							return <Stage stage={stage} />
-						})
-					) : (
-						boolRes ? (
-							listeStages.stagesRes.filter(stage => stage.typeStage.includes("sécurité")).map(stage => {
-								return <Stage stage={stage} />
-							})
-						) : (
-							listeStages.map(stage => {
-								return <Stage stage={stage} />
-							})
-						)
-					)
-				)
-			) : (
-				<Stage listeVide={true} />
-			)
+				}
+			} else if (boolDev) {
+				if (listeStagesDev.length !== 0) {
+					element = listeStagesDev.map(stage => {
+						return <Stage stage={stage} />
+					});
+				} else {
+					<Stage listeVide={true} />
+				}
+			} else if (boolRes) {
+				if (listeStagesRes.length !== 0) {
+					element = listeStagesRes.map(stage => {
+						return <Stage stage={stage} />
+					});
+				} else {
+					<Stage listeVide={true} />
+				}
+			} else {
+				element = listeStages.map(stage => {
+					return <Stage stage={stage} />
+				})
+			}
+		} else {
+			<Stage listeVide={true} />
 		}
-	</ul>;
+	} else {
+		<Stage listeVide={true} />
+	}
+
+	function toggleBoolDev(event) {
+		setBoolDev(!boolDev);
+		
+		if (boolDev) {
+			event.target.classList.remove("button--enabled");
+		} else {
+			event.target.classList.add("button--enabled");
+		}
+	}
+
+	function toggleBoolRes(event) {
+		setBoolRes(!boolRes);
+		
+		if (boolRes) {
+			event.target.classList.remove("button--enabled");
+		} else {
+			event.target.classList.add("button--enabled");
+		}
+	}
 
 	return (
 		<div className="main_content">
@@ -63,21 +99,24 @@ const ListeStages = (props) => {
 			</h4>
 			<hr />
 			<div className="main_content-content">
-				<div className="main_content-liste_stages">
-					<div className="main_content-boutons">
-						<Button onClick={function () {setBoolDev(true); setBoolRes(false);}}>
+				<div className="main_content-liste_stages-boutons">
+					<Card className="main_content-liste_stages-boutons_card">
+						<h4>Filtrer par:</h4>
+						<Button onClick={toggleBoolDev}>
 								Développement
 						</Button>
-						<Button onClick={function () {setBoolDev(false); setBoolRes(true)}}>
+						<Button onClick={toggleBoolRes}>
 								Réseaux
 						</Button>
-					</div>
+					</Card>
 				</div>
 				<React.Fragment>
 					<ErrorModal error={error} onClear={clearError} />
-					{listeStages && (
-						element
-					)}
+					<ul className="main_content-liste_stages">
+						{listeStages && (
+							element
+						)}
+					</ul>
 				</React.Fragment>
 			</div>
 		</div>

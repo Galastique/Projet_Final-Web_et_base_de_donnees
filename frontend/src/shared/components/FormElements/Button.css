@@ -21,6 +21,22 @@
   border-color: rgb(140, 116, 245);
 }
 
+.button--enabled {
+  background: rgb(156, 134, 253);
+  border-color: rgb(156, 134, 253);
+}
+
+.button--enabled:hover,
+.button--enabled:active {
+  background: rgb(173, 155, 255);
+  border-color: rgb(173, 155, 255);
+}
+
+.button--enabled:before {
+  content: "✓";
+  margin-right: 0.5em;
+}
+
 .button--inverse {
   background: transparent;
   color: rgb(117, 90, 236);
